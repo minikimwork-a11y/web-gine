@@ -984,20 +984,20 @@ export default function AdminPage() {
                   </div>
                 ) : (
                   /* Preview Mode */
-                  <div className="bg-[#f8f9fa] border border-zinc-200 text-[#2d2d2d] rounded-lg p-6 sm:p-8 min-h-[300px] max-h-[500px] overflow-y-auto font-sans selection:bg-[#ff3c00] selection:text-white relative">
-                    <span className="absolute top-2 right-2 text-[9px] font-mono text-zinc-400 bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded pointer-events-none uppercase">
+                  <div className="bg-[#0a0a0a] border border-white/10 text-[#e0e0e0] rounded-lg p-6 sm:p-8 min-h-[300px] max-h-[500px] overflow-y-auto font-sans selection:bg-[#ff3c00] selection:text-white relative">
+                    <span className="absolute top-2 right-2 text-[9px] font-mono text-white/40 bg-white/5 border border-white/10 px-2 py-0.5 rounded pointer-events-none uppercase">
                       HTML Live Preview
                     </span>
                     {editorContent.trim() ? (
                       <div
-                        className="leading-relaxed text-zinc-700 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-zinc-900 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-zinc-900 [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-zinc-900 [&_h3]:mt-4 [&_h3]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-zinc-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-zinc-500 [&_a]:text-[#ff3c00] [&_a]:underline"
+                        className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-4 [&_h3]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline"
                         style={{ wordBreak: "break-word" }}
                         dangerouslySetInnerHTML={{ __html: editorContent }}
                       />
                     ) : (
-                      <div className="flex flex-col items-center justify-center h-[200px] text-zinc-400 text-xs">
+                      <div className="flex flex-col items-center justify-center h-[200px] text-white/40 text-xs">
                         <span>본문에 작성된 내용이 없습니다.</span>
-                        <span className="text-[10px] mt-1 text-zinc-400/70">작성 탭에서 내용을 입력한 뒤 돌아와 주세요.</span>
+                        <span className="text-[10px] mt-1 text-white/30">작성 탭에서 내용을 입력한 뒤 돌아와 주세요.</span>
                       </div>
                     )}
                   </div>

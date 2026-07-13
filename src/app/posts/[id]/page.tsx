@@ -85,10 +85,10 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] text-[#2d2d2d] font-sans selection:bg-[#ff3c00] selection:text-white relative pb-24">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative pb-24">
       {/* Background decorations */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#ff3c00]/3 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-[#ff3c00]/3 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#ff3c00]/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Shared Navbar */}
       <Navbar />
@@ -97,25 +97,25 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
       <main className="max-w-3xl mx-auto px-6 pt-12 relative z-10">
         {loading ? (
           <div className="space-y-6 animate-pulse py-12">
-            <div className="h-4 bg-zinc-200 rounded w-1/4" />
-            <div className="h-10 bg-zinc-200 rounded w-3/4" />
-            <div className="h-64 bg-zinc-200 rounded-3xl w-full" />
+            <div className="h-4 bg-white/5 rounded w-1/4" />
+            <div className="h-10 bg-white/5 rounded w-3/4" />
+            <div className="h-64 bg-white/5 rounded-3xl w-full" />
             <div className="space-y-3">
-              <div className="h-4 bg-zinc-200 rounded w-full" />
-              <div className="h-4 bg-zinc-200 rounded w-full" />
-              <div className="h-4 bg-zinc-200 rounded w-5/6" />
+              <div className="h-4 bg-white/5 rounded w-full" />
+              <div className="h-4 bg-white/5 rounded w-full" />
+              <div className="h-4 bg-white/5 rounded w-5/6" />
             </div>
           </div>
         ) : error || !post ? (
-          <div className="border border-zinc-200 bg-white rounded-3xl p-16 text-center my-12 shadow-lg">
+          <div className="border border-white/10 bg-black/40 rounded-3xl p-16 text-center my-12 backdrop-blur-xl">
             <span className="text-4xl block mb-4">⚠️</span>
-            <h3 className="text-lg font-bold text-zinc-800 mb-2">{error || "게시글을 찾을 수 없습니다."}</h3>
-            <p className="text-xs text-zinc-500 leading-normal mb-6">
+            <h3 className="text-lg font-bold text-white mb-2">{error || "게시글을 찾을 수 없습니다."}</h3>
+            <p className="text-xs text-white/40 leading-normal mb-6">
               삭제된 게시글이거나 발행이 취소된 게시글일 수 있습니다.
             </p>
             <Link
               href="/posts"
-              className="inline-block bg-zinc-50 hover:bg-zinc-100 text-zinc-700 border border-zinc-200 px-4 py-2.5 rounded-lg text-xs font-mono transition-colors"
+              className="inline-block bg-white/5 hover:bg-white/10 text-white border border-white/10 px-4 py-2.5 rounded-lg text-xs font-mono transition-colors"
             >
               목록으로 돌아가기
             </Link>
@@ -131,11 +131,11 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                   day: "numeric",
                 })}
               </span>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-zinc-900 tracking-tight leading-tight font-serif">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight font-serif">
                 {decodeHtml(post.title)}
               </h1>
               {post.excerpt && (
-                <p className="text-sm sm:text-base text-zinc-500 border-l-2 border-[#ff3c00] pl-4 italic leading-relaxed">
+                <p className="text-sm sm:text-base text-white/50 border-l-2 border-[#ff3c00] pl-4 italic leading-relaxed">
                   {decodeHtml(post.excerpt)}
                 </p>
               )}
@@ -143,7 +143,7 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
 
             {/* Images Carousel */}
             {images.length > 0 && (
-              <div className="relative w-full rounded-2xl overflow-hidden border border-zinc-200/80 shadow-xl bg-zinc-100 group/carousel">
+              <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-zinc-950 group/carousel">
                 {/* Slides Track */}
                 <div className="relative h-[250px] sm:h-[380px] md:h-[450px] w-full overflow-hidden">
                   <div
@@ -154,7 +154,7 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                       <div key={idx} className="flex-shrink-0 w-full h-full relative flex items-center justify-center overflow-hidden">
                         {/* Blurred background to fill portrait photos */}
                         <div
-                          className="absolute inset-0 bg-cover bg-center blur-md opacity-25 scale-105 pointer-events-none"
+                          className="absolute inset-0 bg-cover bg-center blur-md opacity-35 scale-105 pointer-events-none"
                           style={{ backgroundImage: `url(${imgSrc})` }}
                         />
                         {/* Real image */}
@@ -173,14 +173,14 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                   <>
                     <button
                       onClick={handlePrev}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-[#ff3c00] text-white p-2.5 rounded-full z-20 transition-all opacity-0 group-hover/carousel:opacity-100 cursor-pointer shadow-md"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-[#ff3c00] text-white p-2.5 rounded-full z-20 transition-all opacity-0 group-hover/carousel:opacity-100 cursor-pointer shadow-md"
                       aria-label="이전 사진"
                     >
                       &larr;
                     </button>
                     <button
                       onClick={handleNext}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-[#ff3c00] text-white p-2.5 rounded-full z-20 transition-all opacity-0 group-hover/carousel:opacity-100 cursor-pointer shadow-md"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-[#ff3c00] text-white p-2.5 rounded-full z-20 transition-all opacity-0 group-hover/carousel:opacity-100 cursor-pointer shadow-md"
                       aria-label="다음 사진"
                     >
                       &rarr;
@@ -193,7 +193,7 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                           key={idx}
                           onClick={() => setCurrentSlide(idx)}
                           className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                            currentSlide === idx ? "bg-[#ff3c00] w-4" : "bg-black/20 hover:bg-black/40"
+                            currentSlide === idx ? "bg-[#ff3c00] w-4" : "bg-white/40 hover:bg-white/80"
                           }`}
                           aria-label={`${idx + 1}번째 슬라이드로 이동`}
                         />
@@ -205,21 +205,21 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
             )}
 
             {/* Divider */}
-            <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-200 to-transparent my-8" />
+            <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent my-8" />
 
             {/* Body Content */}
             <div
-              className="leading-relaxed text-zinc-700 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-zinc-900 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2"
+              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2"
               style={{ wordBreak: "break-word" }}
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
             {/* Footer Navigation */}
-            <div className="pt-12 border-t border-zinc-200 flex justify-between items-center text-xs font-mono">
-              <Link href="/posts" className="text-zinc-500 hover:text-zinc-800 transition-colors">
+            <div className="pt-12 border-t border-white/10 flex justify-between items-center text-xs font-mono">
+              <Link href="/posts" className="text-white/60 hover:text-white transition-colors">
                 &larr; 목록으로 돌아가기
               </Link>
-              <span className="text-zinc-300">1004 보금자리 웹진</span>
+              <span className="text-white/20">1004 보금자리 웹진</span>
             </div>
           </article>
         )}
