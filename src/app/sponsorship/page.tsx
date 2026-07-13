@@ -338,8 +338,8 @@ export default function SponsorshipPage() {
 
       {/* Wizard Form container */}
       <main className="max-w-3xl mx-auto px-6 py-6 relative z-10">
-        <div className="bg-black/40 border border-white/10 backdrop-blur-md rounded-3xl p-8 shadow-2xl relative">
-          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#ff3c00] to-transparent" />
+        <div className="bg-black/40 border border-white/10 backdrop-blur-md rounded-3xl p-8 shadow-2xl relative border-beam-active overflow-hidden">
+          <div className="border-beam-container" />
 
           {/* Steps Progress Indicator */}
           {step !== "success" && (

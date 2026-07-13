@@ -118,8 +118,9 @@ export default function PostsPage() {
                 <Link
                   key={post.id}
                   href={`/posts/${post.id}`}
-                  className="group bg-black/30 border border-white/10 hover:border-[#ff3c00]/30 hover:bg-black/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col h-full shadow-lg relative"
+                  className="group bg-black/30 border border-white/10 hover:border-[#ff3c00]/30 hover:bg-black/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col h-full shadow-lg relative border-beam-card"
                 >
+                  <div className="border-beam-container" />
                   {/* Image container */}
                   {coverUrl ? (
                     <div className="h-48 w-full overflow-hidden bg-zinc-950 border-b border-white/5 relative">

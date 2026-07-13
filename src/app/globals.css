@@ -25,3 +25,62 @@ body {
   color: var(--foreground);
   font-family: var(--font-noto-sans-kr), sans-serif;
 }
+
+/* ==========================================
+   Border Beam (Perimeter Hover Effect)
+   ========================================== */
+.border-beam-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-beam-container {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+  padding: 1.5px; /* Thinner border */
+  background: transparent;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.border-beam-card:hover .border-beam-container,
+.border-beam-active .border-beam-container {
+  opacity: 0.45; /* Silver-soft translucent opacity */
+}
+
+.border-beam-container::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  background: conic-gradient(
+    from 0deg,
+    transparent 65%,
+    rgba(255, 60, 0, 0.5) 88%,
+    rgba(255, 85, 34, 0.7) 95%,
+    rgba(255, 60, 0, 0.5) 100%
+  );
+  animation: border-beam-spin 4s linear infinite; /* Slower spin for premium elegance */
+}
+
+@keyframes border-beam-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+

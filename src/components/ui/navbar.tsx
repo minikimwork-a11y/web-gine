@@ -24,11 +24,10 @@ export function Navbar() {
         <nav className="flex items-center gap-6 md:gap-8" aria-label="주 메뉴">
           <Link
             href="/posts"
-            className={`text-sm font-medium transition-all duration-300 relative py-1.5 ${
-              isWebzineActive
+            className={`text-sm font-medium transition-all duration-300 relative py-1.5 ${isWebzineActive
                 ? "text-[#ff3c00] font-semibold"
                 : "text-white/60 hover:text-white"
-            }`}
+              }`}
           >
             웹진 소식
             {isWebzineActive && (
@@ -37,11 +36,10 @@ export function Navbar() {
           </Link>
           <Link
             href="/sponsorship"
-            className={`text-sm font-medium transition-all duration-300 relative py-1.5 ${
-              isSponsorshipActive
+            className={`text-sm font-medium transition-all duration-300 relative py-1.5 ${isSponsorshipActive
                 ? "text-[#ff3c00] font-semibold"
                 : "text-white/60 hover:text-white"
-            }`}
+              }`}
           >
             따뜻한 후원
             {isSponsorshipActive && (
@@ -62,7 +60,7 @@ export function Navbar() {
             href="/login"
             className="text-xs font-mono tracking-wider border border-white/20 hover:border-[#ff3c00] hover:text-[#ff3c00] text-white/80 px-3.5 py-2 rounded-lg transition-all duration-300 bg-black/20"
           >
-            관리자 로그인
+            admin
           </Link>
         </div>
       </div>
