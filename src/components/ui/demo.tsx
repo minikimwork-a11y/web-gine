@@ -174,20 +174,20 @@ const HalideLanding: React.FC = () => {
         <div className="halide-grain" style={{ filter: 'url(#grain)' }}></div>
 
         <div className="interface-grid">
-          <div style={{ fontWeight: 700 }}>HALIDE_CORE</div>
-          <div style={{ textAlign: 'right', fontFamily: 'monospace', color: 'var(--accent)', fontSize: '0.7rem' }}>
-            <div>LATITUDE: 34.0522° N</div>
-            <div>FOCAL DEPTH: 80MM</div>
+          <div style={{ fontWeight: 700, letterSpacing: '0.1em' }}>1004 BOGUMZARI</div>
+          <div style={{ textAlign: 'right', fontFamily: 'monospace', color: 'var(--accent)', fontSize: '0.8rem', fontWeight: 600 }}>
+            <div>ISSUE NO. 01</div>
+            <div>JULY 2026</div>
           </div>
 
-          <h1 className="hero-title">SILVER<br />SULPHIDE</h1>
+          <h1 className="hero-title">1004<br />BOGUMZARI</h1>
 
           <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <div style={{ fontFamily: 'monospace', fontSize: '0.75rem' }}>
-              <p>[ ARCHIVE 2024 ]</p>
-              <p>SURFACE TENSION & TOPOGRAPHICAL LIGHT</p>
+            <div style={{ fontSize: '0.85rem', lineHeight: '1.6' }}>
+              <p style={{ fontWeight: 700, letterSpacing: '0.05em', color: 'var(--silver)' }}>1004 보금자리 웹진</p>
+              <p style={{ opacity: 0.6, fontSize: '0.75rem' }}>따뜻한 만남과 나눔, 우리들의 살아가는 이야기</p>
             </div>
-            <a href="#" className="cta-button">EXPLORE DEPTH</a>
+            <a href="#" className="cta-button" style={{ letterSpacing: '0.05em', fontFamily: 'sans-serif' }}>웹진 읽기</a>
           </div>
         </div>
 
