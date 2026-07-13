@@ -180,10 +180,12 @@ const HalideLanding: React.FC = () => {
         <div className="halide-grain" style={{ filter: 'url(#grain)' }}></div>
 
         <div className="interface-grid">
-          <div style={{ fontWeight: 700, letterSpacing: '0.1em' }}>1004 BOGUMZARI</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', pointerEvents: 'auto' }}>
+            <img src="/logo.png" alt="1004 보금자리 로고" style={{ height: '36px', objectFit: 'contain', filter: 'brightness(1.2)' }} />
+            <span style={{ fontFamily: 'var(--font-geist-sans), sans-serif', fontWeight: 800, fontSize: '0.95rem', letterSpacing: '0.05em' }}>1004 보금자리</span>
+          </div>
           <div style={{ textAlign: 'right', fontFamily: 'monospace', fontSize: '0.8rem', fontWeight: 600 }}>
-            <div style={{ color: 'var(--accent)' }}>ISSUE NO. 01 / JULY 2026</div>
-            <div style={{ marginTop: '0.5rem', pointerEvents: 'auto' }}>
+            <div style={{ pointerEvents: 'auto' }}>
               <a 
                 href="/login" 
                 style={{ 
@@ -202,7 +204,7 @@ const HalideLanding: React.FC = () => {
             </div>
           </div>
 
-          <h1 className="hero-title">1004<br />BOGUMZARI</h1>
+          <h1 className="hero-title">1004<br /><span style={{ fontFamily: 'var(--font-geist-sans), sans-serif', fontWeight: 800, letterSpacing: '0' }}>보금자리</span></h1>
 
           <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
             <div style={{ fontSize: '0.85rem', lineHeight: '1.6' }}>
