@@ -160,6 +160,12 @@ const HalideLanding: React.FC = () => {
           50% { transform: scaleY(1); transform-origin: top; }
           51% { transform: scaleY(1); transform-origin: bottom; }
         }
+
+        .admin-login-btn:hover {
+          border-color: var(--accent) !important;
+          color: var(--accent) !important;
+          background: rgba(255, 60, 0, 0.05);
+        }
       `}</style>
 
       <div className="halide-body">
@@ -175,9 +181,25 @@ const HalideLanding: React.FC = () => {
 
         <div className="interface-grid">
           <div style={{ fontWeight: 700, letterSpacing: '0.1em' }}>1004 BOGUMZARI</div>
-          <div style={{ textAlign: 'right', fontFamily: 'monospace', color: 'var(--accent)', fontSize: '0.8rem', fontWeight: 600 }}>
-            <div>ISSUE NO. 01</div>
-            <div>JULY 2026</div>
+          <div style={{ textAlign: 'right', fontFamily: 'monospace', fontSize: '0.8rem', fontWeight: 600 }}>
+            <div style={{ color: 'var(--accent)' }}>ISSUE NO. 01 / JULY 2026</div>
+            <div style={{ marginTop: '0.5rem', pointerEvents: 'auto' }}>
+              <a 
+                href="/login" 
+                style={{ 
+                  color: 'var(--silver)', 
+                  textDecoration: 'none', 
+                  fontSize: '0.7rem', 
+                  border: '1px solid rgba(224,224,224,0.2)', 
+                  padding: '0.3rem 0.8rem', 
+                  borderRadius: '4px', 
+                  display: 'inline-block'
+                }}
+                className="admin-login-btn"
+              >
+                ADMIN LOGIN
+              </a>
+            </div>
           </div>
 
           <h1 className="hero-title">1004<br />BOGUMZARI</h1>
