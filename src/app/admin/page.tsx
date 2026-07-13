@@ -88,6 +88,41 @@ export default function AdminPage() {
   const [editorIsPublished, setEditorIsPublished] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [submittingPost, setSubmittingPost] = useState(false);
+  const [editorTab, setEditorTab] = useState<"write" | "preview">("write");
+
+  const insertTag = (beforeVal: string, afterVal: string) => {
+    const textarea = document.getElementById("admin-editor-textarea") as HTMLTextAreaElement;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const selected = text.substring(start, end);
+    const replacement = beforeVal + selected + afterVal;
+
+    const newContent = text.substring(0, start) + replacement + text.substring(end);
+    setEditorContent(newContent);
+
+    // Restore focus and selection
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(
+        start + beforeVal.length,
+        start + beforeVal.length + selected.length
+      );
+    }, 0);
+  };
+
+  const handleInsertLink = () => {
+    const url = prompt("연결할 링크 URL 주소를 입력하세요:", "https://");
+    if (url) {
+      insertTag(`<a href="${url}" target="_blank" className="text-[#ff3c00] hover:underline font-semibold">`, "</a>");
+    }
+  };
+
+  const handleInsertImage = (imgUrl: string) => {
+    insertTag(`\n<img src="${imgUrl}" className="w-full rounded-2xl my-6 object-cover shadow-md" alt="본문 이미지" />\n`, "");
+  };
 
   // Sponsorship states
   const [sponsorships, setSponsorships] = useState<Sponsorship[]>([]);
@@ -387,6 +422,7 @@ export default function AdminPage() {
     setEditorCoverImages([]);
     setEditorPublishedAt(getTodayDateString());
     setEditorIsPublished(false);
+    setEditorTab("write");
   };
 
   const handleRemoveImage = (indexToRemove: number) => {
@@ -772,19 +808,200 @@ export default function AdminPage() {
               </div>
 
 
-              {/* Content Textarea */}
+              {/* Content Editor with Toolbar & Preview */}
               <div className="space-y-2">
-                <label className="text-xs font-mono uppercase tracking-wider text-white/60 block">
-                  Content (본문) <span className="text-[#ff3c00]">*</span>
-                </label>
-                <textarea
-                  value={editorContent}
-                  onChange={(e) => setEditorContent(e.target.value)}
-                  required
-                  placeholder="웹진 내용을 입력하세요. (HTML 또는 마크다운 형식 가능)"
-                  rows={12}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#ff3c00]/60 focus:bg-white/[0.08] font-mono leading-relaxed"
-                />
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-mono uppercase tracking-wider text-white/60 block">
+                    Content (본문) <span className="text-[#ff3c00]">*</span>
+                  </label>
+                  
+                  {/* Tab switches */}
+                  <div className="flex bg-zinc-900 border border-white/10 rounded-lg p-0.5 text-[10px] font-mono select-none">
+                    <button
+                      type="button"
+                      onClick={() => setEditorTab("write")}
+                      className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
+                        editorTab === "write"
+                          ? "bg-[#ff3c00] text-white font-bold"
+                          : "text-white/55 hover:text-white"
+                      }`}
+                    >
+                      WRITE (작성)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditorTab("preview")}
+                      className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
+                        editorTab === "preview"
+                          ? "bg-[#ff3c00] text-white font-bold"
+                          : "text-white/55 hover:text-white"
+                      }`}
+                    >
+                      PREVIEW (미리보기)
+                    </button>
+                  </div>
+                </div>
+
+                {editorTab === "write" ? (
+                  <div className="space-y-2">
+                    {/* Formatting Toolbar */}
+                    <div className="flex flex-wrap items-center gap-1.5 p-2 bg-zinc-900 border border-white/10 border-b-0 rounded-t-lg select-none">
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<strong>", "</strong>")}
+                        className="p-1 px-2.5 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-bold font-mono text-white/70 cursor-pointer transition-all"
+                        title="굵게"
+                      >
+                        B
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<em>", "</em>")}
+                        className="p-1 px-2.5 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] italic font-mono text-white/70 cursor-pointer transition-all"
+                        title="기울임"
+                      >
+                        I
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<u>", "</u>")}
+                        className="p-1 px-2.5 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] underline font-mono text-white/70 cursor-pointer transition-all"
+                        title="밑줄"
+                      >
+                        U
+                      </button>
+                      <span className="w-[1px] h-4 bg-white/10 mx-1" />
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<h2>", "</h2>")}
+                        className="p-1 px-2 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-mono text-white/70 cursor-pointer transition-all"
+                        title="대제목 (H2)"
+                      >
+                        H2
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<h3>", "</h3>")}
+                        className="p-1 px-2 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-mono text-white/70 cursor-pointer transition-all"
+                        title="소제목 (H3)"
+                      >
+                        H3
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<blockquote>", "</blockquote>")}
+                        className="p-1 px-2 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-mono text-white/70 cursor-pointer transition-all"
+                        title="인용구"
+                      >
+                        인용구
+                      </button>
+                      <span className="w-[1px] h-4 bg-white/10 mx-1" />
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<ul>\n  <li>", "</li>\n</ul>")}
+                        className="p-1 px-2 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-mono text-white/70 cursor-pointer transition-all"
+                        title="글머리 기호 목록"
+                      >
+                        • 목록
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<ol>\n  <li>", "</li>\n</ol>")}
+                        className="p-1 px-2 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-mono text-white/70 cursor-pointer transition-all"
+                        title="번호 매기기 목록"
+                      >
+                        1. 목록
+                      </button>
+                      <span className="w-[1px] h-4 bg-white/10 mx-1" />
+                      <button
+                        type="button"
+                        onClick={handleInsertLink}
+                        className="p-1 px-2 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-mono text-white/70 cursor-pointer transition-all"
+                        title="하이퍼링크 삽입"
+                      >
+                        링크
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertTag('<span className="text-[#ff3c00] font-bold">', "</span>")}
+                        className="p-1 px-2 rounded bg-[#ff3c00]/10 hover:bg-[#ff3c00]/25 text-[#ff3c00] border border-[#ff3c00]/20 text-[10px] font-mono cursor-pointer transition-all font-bold"
+                        title="주황색으로 글자 강조"
+                      >
+                        주황강조
+                      </button>
+                      <span className="w-[1px] h-4 bg-white/10 mx-1" />
+                      <button
+                        type="button"
+                        onClick={() => insertTag("<p>", "</p>")}
+                        className="p-1 px-2 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-mono text-white/70 cursor-pointer transition-all"
+                        title="문단 분리"
+                      >
+                        단락
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => insertTag("", "<br />")}
+                        className="p-1 px-2 rounded bg-zinc-800 hover:bg-zinc-700 hover:text-white border border-white/5 text-[10px] font-mono text-white/70 cursor-pointer transition-all"
+                        title="줄바꿈"
+                      >
+                        줄바꿈
+                      </button>
+                    </div>
+
+                    <textarea
+                      id="admin-editor-textarea"
+                      value={editorContent}
+                      onChange={(e) => setEditorContent(e.target.value)}
+                      required
+                      placeholder="웹진 내용을 입력하세요. 상단의 서식 도구를 이용하거나 직접 HTML 태그를 입력할 수 있습니다."
+                      rows={12}
+                      className="w-full bg-white/5 border border-white/10 rounded-b-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#ff3c00]/60 focus:bg-white/[0.08] font-mono leading-relaxed"
+                    />
+
+                    {/* Image Embed Helper section */}
+                    {editorCoverImages.length > 0 && (
+                      <div className="bg-zinc-900/50 border border-white/5 rounded-lg p-3 space-y-2">
+                        <span className="text-[10px] font-mono text-white/55 block">
+                          📷 본문 내 이미지 삽입 (클릭 시 현재 커서 위치에 바로 삽입됩니다):
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {editorCoverImages.map((imgUrl, index) => (
+                            <div
+                              key={index}
+                              onClick={() => handleInsertImage(imgUrl)}
+                              className="w-14 h-10 rounded border border-white/10 overflow-hidden cursor-pointer hover:border-[#ff3c00] active:scale-95 transition-all relative group"
+                              title="본문에 삽입하려면 클릭"
+                            >
+                              <img src={imgUrl} alt={`Thumbnail ${index}`} className="object-cover w-full h-full" />
+                              <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="text-[8px] text-white font-bold font-mono">ADD</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  /* Preview Mode */
+                  <div className="bg-[#f8f9fa] border border-zinc-200 text-[#2d2d2d] rounded-lg p-6 sm:p-8 min-h-[300px] max-h-[500px] overflow-y-auto font-sans selection:bg-[#ff3c00] selection:text-white relative">
+                    <span className="absolute top-2 right-2 text-[9px] font-mono text-zinc-400 bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded pointer-events-none uppercase">
+                      HTML Live Preview
+                    </span>
+                    {editorContent.trim() ? (
+                      <div
+                        className="leading-relaxed text-zinc-700 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-zinc-900 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-zinc-900 [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-zinc-900 [&_h3]:mt-4 [&_h3]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-zinc-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-zinc-500 [&_a]:text-[#ff3c00] [&_a]:underline"
+                        style={{ wordBreak: "break-word" }}
+                        dangerouslySetInnerHTML={{ __html: editorContent }}
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center h-[200px] text-zinc-400 text-xs">
+                        <span>본문에 작성된 내용이 없습니다.</span>
+                        <span className="text-[10px] mt-1 text-zinc-400/70">작성 탭에서 내용을 입력한 뒤 돌아와 주세요.</span>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Publish Toggle & Date Selector */}
