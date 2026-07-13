@@ -15,16 +15,16 @@ export function Navbar() {
         {/* Logo / Branding */}
         <Link href="/" className="flex items-center gap-3 group">
           <img src="/logo.png" alt="1004 보금자리 로고" className="h-8 object-contain filter brightness-110" />
-          <span className="font-sans font-bold text-base tracking-wide text-white group-hover:text-[#ff3c00] transition-colors">
+          <span className="font-sans font-bold text-base tracking-wide text-white group-hover:text-[#ff3c00] transition-colors hidden sm:inline-block">
             1004 보금자리 웹진
           </span>
         </Link>
 
         {/* GNB Navigation Links */}
-        <nav className="flex items-center gap-6 md:gap-8" aria-label="주 메뉴">
+        <nav className="flex items-center gap-4 sm:gap-6 md:gap-8" aria-label="주 메뉴">
           <Link
             href="/posts"
-            className={`text-sm font-medium transition-all duration-300 relative py-1.5 ${isWebzineActive
+            className={`text-xs sm:text-sm font-medium transition-all duration-300 relative py-1.5 ${isWebzineActive
                 ? "text-[#ff3c00] font-semibold"
                 : "text-white/60 hover:text-white"
               }`}
@@ -36,7 +36,7 @@ export function Navbar() {
           </Link>
           <Link
             href="/sponsorship"
-            className={`text-sm font-medium transition-all duration-300 relative py-1.5 ${isSponsorshipActive
+            className={`text-xs sm:text-sm font-medium transition-all duration-300 relative py-1.5 ${isSponsorshipActive
                 ? "text-[#ff3c00] font-semibold"
                 : "text-white/60 hover:text-white"
               }`}

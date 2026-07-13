@@ -312,7 +312,7 @@ export default function SponsorshipPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative pb-24">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative pb-24 overflow-x-hidden">
       {/* Background decorations */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#ff3c00]/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-20 left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
@@ -338,7 +338,7 @@ export default function SponsorshipPage() {
 
       {/* Wizard Form container */}
       <main className="max-w-3xl mx-auto px-6 py-6 relative z-10">
-        <div className="bg-black/40 border border-white/10 backdrop-blur-md rounded-3xl p-8 shadow-2xl relative border-beam-active overflow-hidden">
+        <div className="bg-black/40 border border-white/10 backdrop-blur-md rounded-3xl p-5 sm:p-8 shadow-2xl relative border-beam-active overflow-hidden">
           <div className="border-beam-container" />
 
           {/* Steps Progress Indicator */}
@@ -387,7 +387,7 @@ export default function SponsorshipPage() {
                 </div>
 
                 {/* Grid selection cards */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {([
                     { id: "regular", label: "정기 후원", desc: "매달 계좌 자동이체" },
                     { id: "temporary", label: "일시 후원", desc: "원할 때 직접 송금" },
@@ -738,14 +738,14 @@ export default function SponsorshipPage() {
                   <button
                     type="button"
                     onClick={prevStep}
-                    className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold px-6 py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
+                    className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
                   >
                     &larr; 이전 단계
                   </button>
                   <button
                     type="button"
                     onClick={nextStep}
-                    className="bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-6 py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
+                    className="bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
                   >
                     다음 단계 &rarr;
                   </button>
@@ -934,7 +934,7 @@ export default function SponsorshipPage() {
                 {/* Signature pads */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
                   {/* Signature 1: Donor */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 min-w-0">
                     <div className="flex justify-between items-center">
                       <label className="text-xs font-mono text-white/80 font-bold block">
                         신청인(기부자) 서명 <span className="text-[#ff3c00]">*</span>
@@ -973,7 +973,7 @@ export default function SponsorshipPage() {
 
                   {/* Signature 2: Holder (CMS regular only) */}
                   {type === "regular" && payMethod === "CMS" ? (
-                    <div className="space-y-2 animate-fadeIn">
+                    <div className="space-y-2 min-w-0 animate-fadeIn">
                       <div className="flex justify-between items-center">
                         <label className="text-xs font-mono text-white/80 font-bold block">
                           예금주 서명 <span className="text-[#ff3c00]">*</span>
@@ -1053,19 +1053,19 @@ export default function SponsorshipPage() {
                 </div>
 
                 {/* Footer Buttons */}
-                <div className="flex justify-between pt-4 border-t border-white/10">
+                <div className="flex flex-col sm:flex-row justify-between gap-3 pt-4 border-t border-white/10">
                   <button
                     type="button"
                     onClick={prevStep}
                     disabled={submitting}
-                    className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold px-6 py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer disabled:opacity-40"
+                    className="w-full sm:w-auto bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer disabled:opacity-40 text-center"
                   >
                     &larr; 이전 단계
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-8 py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer shadow-lg disabled:opacity-40"
+                    className="w-full sm:w-auto bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-4 py-2 sm:px-8 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer shadow-lg disabled:opacity-40 text-center"
                   >
                     {submitting ? "접수 진행 중..." : "따뜻한 후원 신청 완료하기"}
                   </button>
