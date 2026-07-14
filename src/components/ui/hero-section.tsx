@@ -76,7 +76,6 @@ export function HeroSection({
       {/* Header Overlay */}
       <header className="absolute top-0 left-0 w-full z-20 px-8 py-6 flex justify-between items-center pointer-events-none">
         <div className="flex items-center gap-3 pointer-events-auto">
-          <img src="/logo.png" alt="1004 보금자리 로고" className="h-10 object-contain filter brightness-125 drop-shadow-[0_0_1px_rgba(255,255,255,0.5)]" />
           <span className="font-sans font-bold text-lg tracking-wider text-white">
 
           </span>
@@ -84,9 +83,22 @@ export function HeroSection({
         <div className="pointer-events-auto">
           <a
             href="/login"
-            className="text-xs font-mono tracking-wider border border-white/20 hover:border-[#ff3c00] hover:text-[#ff3c00] text-white/80 px-4 py-2.5 rounded-lg transition-all duration-300 backdrop-blur-md bg-black/20"
+            title="관리자 콘솔 (Admin)"
+            aria-label="관리자 콘솔 (Admin)"
+            className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/20 hover:border-[#ff3c00] text-white/80 hover:text-[#ff3c00] transition-all duration-300 backdrop-blur-md bg-black/30"
           >
-            admin
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
           </a>
         </div>
       </header>

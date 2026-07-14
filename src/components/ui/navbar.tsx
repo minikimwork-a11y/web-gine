@@ -52,19 +52,45 @@ export function Navbar() {
           </Link>
         </nav>
 
-        {/* Desktop Right Actions */}
-        <div className="hidden sm:flex items-center gap-4">
+        {/* Desktop Right Actions (Icon Buttons) */}
+        <div className="hidden sm:flex items-center gap-2.5">
           <Link
             href="/"
-            className="text-xs font-mono tracking-wider border border-white/10 hover:border-white/30 text-white/60 hover:text-white px-3.5 py-2 rounded-lg transition-all duration-300"
+            title="홈으로 이동"
+            aria-label="홈으로 이동"
+            className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 hover:border-white/30 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 hover:text-white transition-all duration-300"
           >
-            Home
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
           </Link>
           <Link
             href="/login"
-            className="text-xs font-mono tracking-wider border border-white/20 hover:border-[#ff3c00] hover:text-[#ff3c00] text-white/80 px-3.5 py-2 rounded-lg transition-all duration-300 bg-black/20"
+            title="관리자 콘솔 (Admin)"
+            aria-label="관리자 콘솔 (Admin)"
+            className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/15 hover:border-[#ff3c00]/60 bg-black/40 hover:bg-[#ff3c00]/10 text-white/70 hover:text-[#ff3c00] transition-all duration-300"
           >
-            Admin
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
           </Link>
         </div>
 
@@ -110,16 +136,40 @@ export function Navbar() {
           <Link
             href="/"
             onClick={closeMobile}
-            className="py-3 px-4 rounded-xl text-sm text-white/50 hover:text-white transition-all hover:bg-white/5"
+            className="py-3 px-4 rounded-xl text-sm text-white/60 hover:text-white transition-all hover:bg-white/5 flex items-center gap-2.5"
           >
+            <svg
+              className="w-4 h-4 text-white/40"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
             홈으로
           </Link>
           <Link
             href="/login"
             onClick={closeMobile}
-            className="py-3 px-4 rounded-xl text-sm text-white/50 hover:text-white transition-all hover:bg-white/5 font-mono"
+            className="py-3 px-4 rounded-xl text-sm text-white/60 hover:text-[#ff3c00] transition-all hover:bg-white/5 flex items-center gap-2.5 font-mono"
           >
-            admin
+            <svg
+              className="w-4 h-4 text-[#ff3c00]/70"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+            ADMIN
           </Link>
         </nav>
       </div>
