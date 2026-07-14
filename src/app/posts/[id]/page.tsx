@@ -4,45 +4,17 @@ import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { Navbar } from "@/components/ui/navbar";
-
-interface Post {
-  id: string;
-  title: string;
-  excerpt: string | null;
-  content: string;
-  cover_image: string | null;
-  published_at: string;
-  created_at: string;
-}
-
-const decodeHtml = (html: string | null): string => {
-  if (!html) return "";
-  return html
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-};
-
-const getImages = (coverImage: string | null): string[] => {
-  if (!coverImage) return [];
-  if (coverImage.startsWith("[")) {
-    try {
-      return JSON.parse(coverImage);
-    } catch {
-      return [coverImage];
-    }
-  }
-  return [coverImage];
-};
+import { Footer } from "@/components/ui/footer";
+import { decodeHtml, getImages } from "@/lib/html";
+import type { Post, PostNavItem } from "@/types/post";
 
 export default function PostDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  // Resolve params using React.use (or React.use(params) equivalent)
   const resolvedParams = use(params);
   const id = resolvedParams.id;
 
   const [post, setPost] = useState<Post | null>(null);
+  const [prevPost, setPrevPost] = useState<PostNavItem | null>(null);
+  const [nextPost, setNextPost] = useState<PostNavItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,6 +22,12 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    // Reset state when navigating between posts
+    setLoading(true);
+    setPost(null);
+    setError(null);
+    setCurrentSlide(0);
+
     const fetchPost = async () => {
       try {
         const { data, error: fetchError } = await supabase
@@ -64,6 +42,29 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
         }
 
         setPost(data);
+
+        // Fetch previous post (older)
+        const publishedDate = data.published_at || data.created_at;
+        const { data: prev } = await supabase
+          .from("posts")
+          .select("id, title")
+          .eq("is_published", true)
+          .lt("published_at", publishedDate)
+          .order("published_at", { ascending: false })
+          .limit(1)
+          .single();
+        setPrevPost(prev || null);
+
+        // Fetch next post (newer)
+        const { data: next } = await supabase
+          .from("posts")
+          .select("id, title")
+          .eq("is_published", true)
+          .gt("published_at", publishedDate)
+          .order("published_at", { ascending: true })
+          .limit(1)
+          .single();
+        setNextPost(next || null);
       } catch (err: any) {
         setError(err.message || "오류가 발생했습니다.");
       } finally {
@@ -131,11 +132,11 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                   day: "numeric",
                 })}
               </span>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight font-serif">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-tight leading-tight font-sans">
                 {decodeHtml(post.title)}
               </h1>
               {post.excerpt && (
-                <p className="text-sm sm:text-base text-white/50 border-l-2 border-[#ff3c00] pl-4 italic leading-relaxed">
+                <p className="text-sm sm:text-base text-white/50 border-l-2 border-[#ff3c00] pl-4 leading-relaxed">
                   {decodeHtml(post.excerpt)}
                 </p>
               )}
@@ -192,9 +193,8 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                         <button
                           key={idx}
                           onClick={() => setCurrentSlide(idx)}
-                          className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                            currentSlide === idx ? "bg-[#ff3c00] w-4" : "bg-white/40 hover:bg-white/80"
-                          }`}
+                          className={`w-2 h-2 rounded-full transition-all cursor-pointer ${currentSlide === idx ? "bg-[#ff3c00] w-4" : "bg-white/40 hover:bg-white/80"
+                            }`}
                           aria-label={`${idx + 1}번째 슬라이드로 이동`}
                         />
                       ))}
@@ -209,21 +209,58 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
 
             {/* Body Content */}
             <div
-              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2"
+              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline"
               style={{ wordBreak: "break-word" }}
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
             {/* Footer Navigation */}
-            <div className="pt-12 border-t border-white/10 flex justify-between items-center text-xs font-mono">
-              <Link href="/posts" className="text-white/60 hover:text-white transition-colors">
-                &larr; 목록으로 돌아가기
-              </Link>
-              <span className="text-white/20">1004 보금자리 웹진</span>
+            <div className="pt-12 border-t border-white/10 space-y-6">
+              {/* Prev / Next Post */}
+              <div className="grid grid-cols-2 gap-4">
+                {prevPost ? (
+                  <Link
+                    href={`/posts/${prevPost.id}`}
+                    className="group flex flex-col gap-1.5 p-4 rounded-xl border border-white/5 hover:border-white/15 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300"
+                  >
+                    <span className="text-[10px] font-mono text-white/40 tracking-wider">이전 글</span>
+                    <span className="text-sm text-white/70 group-hover:text-white transition-colors line-clamp-1 font-medium">
+                      &larr; {decodeHtml(prevPost.title)}
+                    </span>
+                  </Link>
+                ) : (
+                  <div />
+                )}
+                {nextPost ? (
+                  <Link
+                    href={`/posts/${nextPost.id}`}
+                    className="group flex flex-col items-end gap-1.5 p-4 rounded-xl border border-white/5 hover:border-white/15 bg-white/[0.02] hover:bg-white/[0.04] transition-all duration-300 text-right"
+                  >
+                    <span className="text-[10px] font-mono text-white/40 tracking-wider">다음 글</span>
+                    <span className="text-sm text-white/70 group-hover:text-white transition-colors line-clamp-1 font-medium">
+                      {decodeHtml(nextPost.title)} &rarr;
+                    </span>
+                  </Link>
+                ) : (
+                  <div />
+                )}
+              </div>
+
+              {/* Back to list */}
+              <div className="flex justify-center">
+                <Link
+                  href="/posts"
+                  className="text-xs font-mono text-white/40 hover:text-white/80 transition-colors py-2"
+                >
+                  목록으로 돌아가기
+                </Link>
+              </div>
             </div>
           </article>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }

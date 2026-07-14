@@ -1141,7 +1141,7 @@ export default function AdminPage() {
                       <div className="flex justify-between items-center border-b border-white/5 pb-4">
                         <div>
                           <span className="text-[10px] font-mono text-white/40 block">APPLICANT DOCUMENT</span>
-                          <h4 className="text-base font-bold text-white font-serif">{selectedSpons.name}님의 신청서</h4>
+                          <h4 className="text-base font-bold text-white font-sans">{selectedSpons.name}님의 신청서</h4>
                         </div>
                         <div className="flex gap-2">
                           <button

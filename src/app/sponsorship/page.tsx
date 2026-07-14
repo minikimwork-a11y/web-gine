@@ -255,8 +255,8 @@ export default function SponsorshipPage() {
             ? parseFloat(customAmount)
             : parseFloat(amount)
           : type === "temporary"
-          ? parseFloat(goodsValuation) || null
-          : null;
+            ? parseFloat(goodsValuation) || null
+            : null;
 
       // 3. Save into Supabase DB
       const payload = {
@@ -326,12 +326,11 @@ export default function SponsorshipPage() {
           <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block uppercase">
             Sponsorship Application
           </span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-none font-serif">
+          <h1 className="text-4xl sm:text-3xl font-extrabold text-white tracking-tight leading-none font-sans">
             따뜻한 나눔 신청
           </h1>
           <p className="text-white/60 text-xs sm:text-sm leading-relaxed pt-2">
             여러분의 소중한 후원과 봉사는 발달장애인들의 독립적인 생활과 건강한 지역사회 참여를 돕는 밑거름이 됩니다. <br />
-            아래의 안전한 온라인 양식을 채워주시면 접수 완료 후 시설 담당자가 안내 전화를 드립니다.
           </p>
         </div>
       </section>
@@ -353,18 +352,16 @@ export default function SponsorshipPage() {
               {[1, 2, 3].map((s) => (
                 <div key={s} className="relative z-10 flex flex-col items-center gap-2">
                   <div
-                    className={`w-9 h-9 rounded-full font-mono font-bold text-xs flex items-center justify-center transition-all duration-300 border-2 ${
-                      step >= s
-                        ? "bg-[#ff3c00] border-[#ff3c00] text-white shadow-lg"
-                        : "bg-zinc-950 border-white/10 text-white/40"
-                    }`}
+                    className={`w-9 h-9 rounded-full font-mono font-bold text-xs flex items-center justify-center transition-all duration-300 border-2 ${step >= s
+                      ? "bg-[#ff3c00] border-[#ff3c00] text-white shadow-lg"
+                      : "bg-zinc-950 border-white/10 text-white/40"
+                      }`}
                   >
                     {s}
                   </div>
                   <span
-                    className={`text-[10px] font-bold ${
-                      step >= s ? "text-white" : "text-white/30"
-                    }`}
+                    className={`text-[10px] font-bold ${step >= s ? "text-white" : "text-white/30"
+                      }`}
                   >
                     {s === 1 ? "유형 선택" : s === 2 ? "인적 사항" : "동의서명"}
                   </span>
@@ -375,7 +372,7 @@ export default function SponsorshipPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            
+
             {/* STEP 1: 유형 선택 */}
             {step === 1 && (
               <div className="space-y-6 animate-fadeIn">
@@ -397,11 +394,10 @@ export default function SponsorshipPage() {
                     <div
                       key={opt.id}
                       onClick={() => setType(opt.id)}
-                      className={`border p-5 rounded-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between h-32 select-none relative group ${
-                        type === opt.id
-                          ? "border-[#ff3c00] bg-[#ff3c00]/5 text-white"
-                          : "border-white/10 bg-white/[0.01] text-white/60 hover:border-white/20"
-                      }`}
+                      className={`border p-5 rounded-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between h-32 select-none relative group ${type === opt.id
+                        ? "border-[#ff3c00] bg-[#ff3c00]/5 text-white"
+                        : "border-white/10 bg-white/[0.01] text-white/60 hover:border-white/20"
+                        }`}
                     >
                       {type === opt.id && (
                         <span className="absolute top-3 right-3 text-[#ff3c00] text-sm">✓</span>
@@ -1087,7 +1083,7 @@ export default function SponsorshipPage() {
                 </div>
 
                 <div className="bg-white/[0.02] border border-white/10 p-6 rounded-2xl text-left text-xs space-y-3 max-w-md mx-auto shadow-inner">
-                  <h4 className="font-bold border-b border-white/10 pb-2 text-white font-serif text-sm">신청 세부 사항 요약</h4>
+                  <h4 className="font-bold border-b border-white/10 pb-2 text-white font-sans text-sm">신청 세부 사항 요약</h4>
                   <div className="grid grid-cols-3 gap-y-2 font-mono text-[11px] text-white/60">
                     <div>후원 유형:</div>
                     <div className="col-span-2 text-white font-sans font-bold">{getTypeName(type)}</div>

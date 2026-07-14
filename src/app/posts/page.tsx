@@ -4,41 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { Navbar } from "@/components/ui/navbar";
-
-interface Post {
-  id: string;
-  title: string;
-  excerpt: string | null;
-  cover_image: string | null;
-  published_at: string;
-  created_at: string;
-}
-
-const decodeHtml = (html: string | null): string => {
-  if (!html) return "";
-  return html
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-};
-
-const getCoverImageUrl = (coverImage: string | null): string => {
-  if (!coverImage) return "";
-  if (coverImage.startsWith("[")) {
-    try {
-      const parsed = JSON.parse(coverImage);
-      return parsed[0] || "";
-    } catch {
-      return coverImage;
-    }
-  }
-  return coverImage;
-};
+import { Footer } from "@/components/ui/footer";
+import { decodeHtml, getCoverImageUrl } from "@/lib/html";
+import type { PostSummary } from "@/types/post";
 
 export default function PostsPage() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -63,7 +34,7 @@ export default function PostsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative pb-20 overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative flex flex-col overflow-x-hidden">
       {/* Visual highlights */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#ff3c00]/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-20 left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
@@ -74,10 +45,7 @@ export default function PostsPage() {
       {/* Hero Section of Posts Page */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-8">
         <div className="max-w-3xl">
-          <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block mb-2 uppercase">
-            소식 및 이야기
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-none mb-4 font-serif">
+          <h1 className="text-4xl sm:text-4xl font-extrabold text-white tracking-tight leading-none mb-4 font-sans">
             보금자리 웹진
           </h1>
           <p className="text-white/60 text-sm sm:text-base leading-relaxed">
@@ -136,34 +104,36 @@ export default function PostsPage() {
                     </div>
                   )}
 
-                {/* Content */}
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-3">
-                    <span className="text-[10px] font-mono text-[#ff3c00] tracking-wider font-bold">
-                      {new Date(post.published_at || post.created_at).toLocaleDateString("ko-KR", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </span>
-                    <h3 className="text-lg font-bold text-white group-hover:text-[#ff3c00] transition-colors leading-snug line-clamp-2 font-serif">
-                      {decodeHtml(post.title)}
-                    </h3>
-                    <p className="text-white/60 text-xs line-clamp-3 leading-relaxed">
-                      {decodeHtml(post.excerpt) || "이야기 보러가기를 클릭해 전체 내용을 확인해 보세요."}
-                    </p>
-                  </div>
+                  {/* Content */}
+                  <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                    <div className="space-y-3">
+                      <span className="text-[10px] font-mono text-[#ff3c00] tracking-wider font-bold">
+                        {new Date(post.published_at || post.created_at).toLocaleDateString("ko-KR", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                      <h3 className="text-lg font-bold text-white group-hover:text-[#ff3c00] transition-colors leading-snug line-clamp-2 font-sans">
+                        {decodeHtml(post.title)}
+                      </h3>
+                      <p className="text-white/60 text-xs line-clamp-3 leading-relaxed">
+                        {decodeHtml(post.excerpt) || "이야기 보러가기를 클릭해 전체 내용을 확인해 보세요."}
+                      </p>
+                    </div>
 
-                  <div className="pt-2 text-xs font-mono text-white/50 group-hover:text-white flex items-center gap-1.5 transition-colors">
-                    자세히 읽기 <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                    <div className="pt-2 text-xs font-mono text-white/50 group-hover:text-white flex items-center gap-1.5 transition-colors">
+                      자세히 읽기 <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
+                </Link>
+              );
+            })}
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }

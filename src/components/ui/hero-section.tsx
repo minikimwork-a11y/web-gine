@@ -43,7 +43,7 @@ export function HeroSection({
   buttonClassName = "",
   maxWidth = "max-w-6xl",
   veilOpacity = "bg-black/10 dark:bg-black/35",
-  fontFamily = "var(--font-gowun-batang), serif",
+  fontFamily = "var(--font-noto-sans-kr), sans-serif",
   fontWeight = 700,
 }: HeroSectionProps) {
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
@@ -76,7 +76,7 @@ export function HeroSection({
       {/* Header Overlay */}
       <header className="absolute top-0 left-0 w-full z-20 px-8 py-6 flex justify-between items-center pointer-events-none">
         <div className="flex items-center gap-3 pointer-events-auto">
-          <img src="/logo.png" alt="1004 보금자리 로고" className="h-9 object-contain filter brightness-110" />
+          <img src="/logo.png" alt="1004 보금자리 로고" className="h-10 object-contain filter brightness-125 drop-shadow-[0_0_1px_rgba(255,255,255,0.5)]" />
           <span className="font-sans font-bold text-lg tracking-wider text-white">
 
           </span>
