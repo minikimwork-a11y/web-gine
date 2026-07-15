@@ -163,3 +163,84 @@ body {
   animation: fadeIn 0.4s ease-out;
 }
 
+/* ==========================================
+   High Performance Floating CSS Orbs
+   ========================================== */
+.css-orb-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: #0a0a0a;
+  z-index: 0;
+}
+
+.css-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(120px);
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.orb-1 {
+  top: 5%;
+  left: 10%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(255, 60, 0, 0.55) 0%, transparent 80%);
+  animation: float-orb-1 25s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+  bottom: 5%;
+  right: 10%;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(33, 158, 188, 0.4) 0%, transparent 80%);
+  animation: float-orb-2 30s ease-in-out infinite alternate;
+}
+
+.orb-3 {
+  top: 35%;
+  right: 25%;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(255, 179, 138, 0.35) 0%, transparent 80%);
+  animation: float-orb-3 20s ease-in-out infinite alternate;
+}
+
+.orb-4 {
+  bottom: 25%;
+  left: 5%;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(255, 107, 53, 0.35) 0%, transparent 80%);
+  animation: float-orb-4 28s ease-in-out infinite alternate;
+}
+
+@keyframes float-orb-1 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(80px, 50px) scale(1.15); }
+  100% { transform: translate(-40px, 100px) scale(0.9); }
+}
+
+@keyframes float-orb-2 {
+  0% { transform: translate(0px, 0px) scale(1.1); }
+  50% { transform: translate(-100px, -70px) scale(0.85); }
+  100% { transform: translate(50px, -30px) scale(1.05); }
+}
+
+@keyframes float-orb-3 {
+  0% { transform: translate(0px, 0px) scale(0.9); }
+  50% { transform: translate(50px, -90px) scale(1.2); }
+  100% { transform: translate(-70px, 30px) scale(1.0); }
+}
+
+@keyframes float-orb-4 {
+  0% { transform: translate(0px, 0px) scale(1.05); }
+  50% { transform: translate(-50px, 90px) scale(0.8); }
+  100% { transform: translate(80px, -50px) scale(1.15); }
+}
+
+

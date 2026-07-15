@@ -1,9 +1,6 @@
 "use client";
 
-import { MeshGradient } from "@paper-design/shaders-react";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
 
 interface HeroSectionProps {
   title?: string;
@@ -46,21 +43,7 @@ export function HeroSection({
   fontFamily = "var(--font-noto-sans-kr), sans-serif",
   fontWeight = 700,
 }: HeroSectionProps) {
-  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
-  const [mounted, setMounted] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    setMounted(true);
-    const update = () =>
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
 
   const handleButtonClick = () => {
     if (onButtonClick) {
@@ -103,24 +86,15 @@ export function HeroSection({
         </div>
       </header>
 
-      {/* Background Mesh Gradient */}
-      <div className="fixed inset-0 w-screen h-screen">
-        {mounted && (
-          <>
-            <MeshGradient
-              width={dimensions.width}
-              height={dimensions.height}
-              colors={colors}
-              distortion={distortion}
-              swirl={swirl}
-              grainMixer={0}
-              grainOverlay={0}
-              speed={speed}
-              offsetX={offsetX}
-            />
-            <div className={`absolute inset-0 pointer-events-none backdrop-blur-[2px] ${veilOpacity}`} />
-          </>
-        )}
+      {/* Background Floating Orbs (CSS Optimized) */}
+      <div className="fixed inset-0 w-screen h-screen bg-[#0a0a0a]">
+        <div className="css-orb-container">
+          <div className="css-orb orb-1" />
+          <div className="css-orb orb-2" />
+          <div className="css-orb orb-3" />
+          <div className="css-orb orb-4" />
+        </div>
+        <div className={`absolute inset-0 pointer-events-none backdrop-blur-[2px] ${veilOpacity}`} />
       </div>
 
       {/* Content */}
@@ -148,13 +122,13 @@ export function HeroSection({
               웹진 바로가기 &rarr;
             </button>
             <button
-              onClick={() => router.push("/sponsorship")}
+              onClick={() => window.open("http://1004house.co.kr", "_self")}
               className="px-8 py-4 sm:px-10 sm:py-4.5 rounded-xl border-2 bg-zinc-900/80 border-white/10 hover:border-[#ff3c00]/40 text-sm sm:text-base font-bold text-white/95 hover:bg-zinc-800 hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl cursor-pointer backdrop-blur-md"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%)",
               }}
             >
-              따뜻한 나눔 바로가기 &rarr;
+              홈페이지 바로가기 &rarr;
             </button>
           </div>
 

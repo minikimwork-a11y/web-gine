@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
+import { maskJumin, maskBankAccount, sanitizeHtml } from "@/lib/html";
 
 interface Post {
   id: string;
@@ -128,6 +130,16 @@ export default function AdminPage() {
   const [sponsorships, setSponsorships] = useState<Sponsorship[]>([]);
   const [loadingSpons, setLoadingSpons] = useState(false);
   const [selectedSpons, setSelectedSpons] = useState<Sponsorship | null>(null);
+
+  // Reveal toggle states for PII masking
+  const [revealJumin, setRevealJumin] = useState(false);
+  const [revealAccount, setRevealAccount] = useState(false);
+
+  // Reset reveal states when switching selected sponsorship
+  useEffect(() => {
+    setRevealJumin(false);
+    setRevealAccount(false);
+  }, [selectedSpons]);
 
   // Status and stats states
   const [stats, setStats] = useState({
@@ -466,6 +478,12 @@ export default function AdminPage() {
             </h1>
           </div>
           <nav className="p-4 space-y-1">
+            <Link
+              href="/"
+              className="w-full text-left px-4 py-3 rounded-xl transition-all duration-300 font-mono text-sm flex items-center gap-3 text-white/60 hover:text-white hover:bg-white/5 border-b border-white/5 mb-2"
+            >
+              🏠 GO TO HOME (홈으로)
+            </Link>
             <button
               onClick={() => setActiveTab("dashboard")}
               className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 font-mono text-sm flex items-center gap-3 ${
@@ -992,7 +1010,7 @@ export default function AdminPage() {
                       <div
                         className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-4 [&_h3]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline"
                         style={{ wordBreak: "break-word" }}
-                        dangerouslySetInnerHTML={{ __html: editorContent }}
+                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(editorContent) }}
                       />
                     ) : (
                       <div className="flex flex-col items-center justify-center h-[200px] text-white/40 text-xs">
@@ -1239,7 +1257,16 @@ export default function AdminPage() {
                               <div>은행명:</div>
                               <div className="col-span-2 text-white font-bold">{selectedSpons.bank_name}</div>
                               <div>계좌번호:</div>
-                              <div className="col-span-2 text-white font-bold">{selectedSpons.bank_account}</div>
+                              <div className="col-span-2 text-white font-bold flex items-center gap-2">
+                                <span>{revealAccount ? selectedSpons.bank_account : maskBankAccount(selectedSpons.bank_account)}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => setRevealAccount(!revealAccount)}
+                                  className="px-2 py-0.5 rounded bg-white/10 hover:bg-[#ff3c00] hover:text-white text-white/70 transition-all text-[9px] cursor-pointer font-mono font-bold"
+                                >
+                                  {revealAccount ? "HIDE (숨기기)" : "SHOW (보기)"}
+                                </button>
+                              </div>
                               <div>예금주명:</div>
                               <div className="col-span-2 text-white font-sans font-bold">{selectedSpons.bank_holder}</div>
                               <div>예금주 생일:</div>
@@ -1250,16 +1277,26 @@ export default function AdminPage() {
                           </div>
                         )}
 
-                        {/* Tax Receipt details */}
-                        {selectedSpons.receipt_opt !== "none" && (
-                          <div className="grid grid-cols-3 border-b border-white/5 pb-2">
-                            <span className="text-white/40 font-mono">소득공제 설정</span>
-                            <span className="col-span-2 text-white font-bold">
-                              {selectedSpons.receipt_opt === "personal" ? "개인소득공제용" : "사업자등록/단체용"} 
-                              {selectedSpons.jumin_no && <span className="text-white/40 font-mono block text-[10px] mt-0.5 font-bold">식별번호: {selectedSpons.jumin_no}</span>}
-                            </span>
-                          </div>
-                        )}
+                            {selectedSpons.receipt_opt !== "none" && (
+                              <div className="grid grid-cols-3 border-b border-white/5 pb-2">
+                                <span className="text-white/40 font-mono">소득공제 설정</span>
+                                <span className="col-span-2 text-white font-bold">
+                                  {selectedSpons.receipt_opt === "personal" ? "개인소득공제용" : "사업자등록/단체용"} 
+                                  {selectedSpons.jumin_no && (
+                                    <span className="text-white/40 font-mono block text-[10px] mt-0.5 font-bold flex items-center gap-2">
+                                      <span>식별번호: {revealJumin ? selectedSpons.jumin_no : maskJumin(selectedSpons.jumin_no)}</span>
+                                      <button
+                                        type="button"
+                                        onClick={() => setRevealJumin(!revealJumin)}
+                                        className="px-2 py-0.5 rounded bg-white/10 hover:bg-[#ff3c00] hover:text-white text-white/70 transition-all text-[9px] cursor-pointer font-mono font-bold"
+                                      >
+                                        {revealJumin ? "HIDE (숨기기)" : "SHOW (보기)"}
+                                      </button>
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                            )}
 
                         {selectedSpons.amount_desc && (
                           <div className="grid grid-cols-3 border-b border-white/5 pb-2">

@@ -5,12 +5,17 @@ import { supabase } from "@/lib/supabase";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
 import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { decodeHtml, getCoverImageUrl, getImages } from "@/lib/html";
+import { decodeHtml, getCoverImageUrl, getImages, sanitizeHtml } from "@/lib/html";
 import type { Post, PostSummary } from "@/types/post";
+
+const POSTS_PER_PAGE = 6;
 
 export default function PostsPage() {
   const [posts, setPosts] = useState<PostSummary[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   // Bottom sheet state
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
@@ -20,26 +25,55 @@ export default function PostsPage() {
   // Carousel state for bottom sheet
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  useEffect(() => {
-    const fetchPublishedPosts = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("posts")
-          .select("id, title, excerpt, cover_image, published_at, created_at")
-          .eq("is_published", true)
-          .order("published_at", { ascending: false });
+  const fetchPublishedPosts = useCallback(async (pageIndex: number, isInitial = false) => {
+    if (isInitial) {
+      setLoading(true);
+    } else {
+      setLoadingMore(true);
+    }
 
-        if (error) throw error;
-        setPosts(data || []);
-      } catch (err) {
-        console.error("Error fetching posts:", err);
-      } finally {
-        setLoading(false);
+    try {
+      const from = pageIndex * POSTS_PER_PAGE;
+      const to = from + POSTS_PER_PAGE - 1;
+
+      const { data, error } = await supabase
+        .from("posts")
+        .select("id, title, excerpt, cover_image, published_at, created_at")
+        .eq("is_published", true)
+        .order("published_at", { ascending: false })
+        .range(from, to);
+
+      if (error) throw error;
+
+      const newPosts = data || [];
+      if (isInitial) {
+        setPosts(newPosts);
+      } else {
+        setPosts((prev) => [...prev, ...newPosts]);
       }
-    };
 
-    fetchPublishedPosts();
+      if (newPosts.length < POSTS_PER_PAGE) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchPublishedPosts(0, true);
+  }, [fetchPublishedPosts]);
+
+  const loadMorePosts = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchPublishedPosts(nextPage, false);
+  };
 
   // Fetch full post data for bottom sheet
   const openPostDetail = useCallback(async (postId: string) => {
@@ -189,6 +223,22 @@ export default function PostsPage() {
             })}
           </div>
         )}
+
+        {/* 더보기 버튼 */}
+        {hasMore && posts.length > 0 && (
+          <div className="flex justify-center mt-12 mb-6">
+            <button
+              onClick={loadMorePosts}
+              disabled={loadingMore}
+              className="px-8 py-3.5 rounded-xl border border-white/10 hover:border-[#ff3c00]/40 bg-zinc-900/60 hover:bg-zinc-800 text-sm font-bold text-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl cursor-pointer disabled:opacity-50 disabled:pointer-events-none backdrop-blur-md"
+              style={{
+                clipPath: "polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%)",
+              }}
+            >
+              {loadingMore ? "이야기 불러오는 중..." : "더 많은 이야기 보기 ↓"}
+            </button>
+          </div>
+        )}
       </main>
 
       <Footer />
@@ -296,7 +346,7 @@ export default function PostsPage() {
             <div
               className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full"
               style={{ wordBreak: "break-word" }}
-              dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(selectedPost.content) }}
             />
 
             {/* Action Buttons */}
