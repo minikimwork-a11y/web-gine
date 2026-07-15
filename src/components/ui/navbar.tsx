@@ -17,12 +17,12 @@ export function Navbar() {
     <header className="border-b border-white/10 backdrop-blur-xl bg-black/40 sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo / Branding */}
-        <Link href="/" className="flex items-center gap-3 group" onClick={closeMobile}>
+        <a href="http://1004house.co.kr" className="flex items-center gap-3 group" onClick={closeMobile}>
           <img src="/logo.png" alt="1004 보금자리 로고" className="h-9 object-contain filter brightness-125 drop-shadow-[0_0_1px_rgba(255,255,255,0.5)] transition-transform group-hover:scale-105" />
           <span className="font-sans font-bold text-base tracking-wide text-white group-hover:text-[#ff3c00] transition-colors hidden sm:inline-block">
             보금자리 웹진
           </span>
-        </Link>
+        </a>
 
         {/* Desktop GNB */}
         <nav className="hidden sm:flex items-center gap-6 md:gap-8" aria-label="주 메뉴">
@@ -54,8 +54,8 @@ export function Navbar() {
 
         {/* Desktop Right Actions (Icon Buttons) */}
         <div className="hidden sm:flex items-center gap-2.5">
-          <Link
-            href="/"
+          <a
+            href="http://1004house.co.kr"
             title="홈으로 이동"
             aria-label="홈으로 이동"
             className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 hover:border-white/30 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 hover:text-white transition-all duration-300"
@@ -72,7 +72,7 @@ export function Navbar() {
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
-          </Link>
+          </a>
           <Link
             href="/login"
             title="관리자 콘솔 (Admin)"
@@ -133,8 +133,8 @@ export function Navbar() {
             따뜻한 후원
           </Link>
           <div className="h-[1px] bg-white/10 my-2" />
-          <Link
-            href="/"
+          <a
+            href="http://1004house.co.kr"
             onClick={closeMobile}
             className="py-3 px-4 rounded-xl text-sm text-white/60 hover:text-white transition-all hover:bg-white/5 flex items-center gap-2.5"
           >
@@ -151,7 +151,7 @@ export function Navbar() {
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
             홈으로
-          </Link>
+          </a>
           <Link
             href="/login"
             onClick={closeMobile}
