@@ -149,10 +149,10 @@ function PostsContent() {
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-8">
         <div className="max-w-3xl">
           <h1 className="text-4xl sm:text-4xl font-extrabold text-white tracking-tight leading-none mb-4 font-sans">
-            보금자리 웹진
+            웹진 소식
           </h1>
           <p className="text-white/60 text-sm sm:text-base leading-relaxed">
-            1004 보금자리에서 함께 나누는 소중한 일상과 이웃들의 아름다운 만남, 그리고 따뜻한 이야기들을 모았습니다.
+            1004 보금자리 식구들의 따뜻하고 소중한 일상과 아름다운 나눔 이야기를 전해드립니다.
           </p>
         </div>
       </section>
