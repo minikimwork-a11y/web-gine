@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
@@ -10,14 +11,17 @@ import type { Post, PostSummary } from "@/types/post";
 
 const POSTS_PER_PAGE = 6;
 
-export default function PostsPage() {
+function PostsContent() {
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams ? (searchParams.get("search") || "") : "";
+
   const [posts, setPosts] = useState<PostSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
+  const [debouncedQuery, setDebouncedQuery] = useState(initialSearch);
 
   // Bottom sheet state
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
@@ -26,6 +30,11 @@ export default function PostsPage() {
 
   // Carousel state for bottom sheet
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Synchronize initialSearch query parameter when URL updates
+  useEffect(() => {
+    setSearchQuery(initialSearch);
+  }, [initialSearch]);
 
   // Debounce search input to avoid hitting database on every keystroke
   useEffect(() => {
@@ -165,26 +174,6 @@ export default function PostsPage() {
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-6 py-8">
-        {/* Search Bar Input */}
-        <div className="relative w-full max-w-md mb-8 z-10">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm">🔍</span>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="웹진 제목이나 설명으로 검색해보세요..."
-            className="w-full bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 focus:border-[#ff3c00]/60 rounded-2xl pl-10 pr-10 py-3.5 text-xs text-white placeholder-white/30 outline-none transition-all duration-300 backdrop-blur-md shadow-inner"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors cursor-pointer text-xs font-bold"
-              title="검색어 초기화"
-            >
-              ✕
-            </button>
-          )}
-        </div>
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-12">
             {[1, 2, 3].map((n) => (
@@ -416,5 +405,17 @@ export default function PostsPage() {
         ) : null}
       </BottomSheet>
     </div>
+  );
+}
+
+export default function PostsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] flex items-center justify-center font-mono text-xs">
+        로딩 중...
+      </div>
+    }>
+      <PostsContent />
+    </Suspense>
   );
 }

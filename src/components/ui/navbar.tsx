@@ -1,17 +1,62 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
 
-export function Navbar() {
+function NavbarContent() {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const urlSearch = searchParams ? (searchParams.get("search") || "") : "";
+
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchVal, setSearchVal] = useState(urlSearch);
 
   const isWebzineActive = pathname.startsWith("/posts");
   const isSponsorshipActive = pathname.startsWith("/sponsorship");
 
-  const closeMobile = () => setMobileOpen(false);
+  const closeMobile = () => {
+    setMobileOpen(false);
+    setSearchVal("");
+  };
+
+  // Sync state if URL query changes externally
+  useEffect(() => {
+    setSearchVal(urlSearch);
+    if (urlSearch) {
+      setSearchOpen(true);
+    }
+  }, [urlSearch]);
+
+  // Debounced URL updates when typing to search in real-time
+  useEffect(() => {
+    const isCurrentlyOnPosts = pathname.startsWith("/posts");
+    if (!isCurrentlyOnPosts) return; // Only apply inline replace updates on the webzine page
+
+    const timer = setTimeout(() => {
+      if (searchVal !== urlSearch) {
+        if (searchVal.trim()) {
+          router.replace(`/posts?search=${encodeURIComponent(searchVal.trim())}`, { scroll: false });
+        } else {
+          router.replace(`/posts`, { scroll: false });
+        }
+      }
+    }, 200); // 200ms debounce
+    return () => clearTimeout(timer);
+  }, [searchVal, urlSearch, pathname, router]);
+
+  const handleSearchChange = (val: string) => {
+    setSearchVal(val);
+    const isCurrentlyOnPosts = pathname.startsWith("/posts");
+    
+    // If not on posts page, immediately redirect on first typed character
+    if (!isCurrentlyOnPosts && val.trim()) {
+      router.push(`/posts?search=${encodeURIComponent(val.trim())}`);
+    }
+  };
 
   return (
     <header className="border-b border-white/10 backdrop-blur-xl bg-black/40 sticky top-0 z-50 transition-all duration-300">
@@ -54,6 +99,61 @@ export function Navbar() {
 
         {/* Desktop Right Actions (Icon Buttons) */}
         <div className="hidden sm:flex items-center gap-2.5">
+          {/* Sliding Search Input */}
+          <div className="flex items-center relative">
+            <input
+              type="text"
+              value={searchVal}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchVal.trim()) {
+                  router.push(`/posts?search=${encodeURIComponent(searchVal.trim())}`);
+                  setSearchOpen(false);
+                }
+              }}
+              placeholder="검색어 입력..."
+              className={`bg-white/[0.03] text-xs text-white placeholder-white/30 outline-none transition-all duration-300 rounded-xl focus:border-[#ff3c00]/60 ${
+                searchOpen 
+                  ? "w-36 md:w-44 px-3 py-2 opacity-100 border border-white/15 mr-1" 
+                  : "w-0 px-0 py-2 opacity-0 border-none overflow-hidden"
+              }`}
+              autoFocus={searchOpen}
+            />
+            <button
+              onClick={() => {
+                if (searchOpen) {
+                  if (searchVal.trim()) {
+                    router.push(`/posts?search=${encodeURIComponent(searchVal.trim())}`);
+                    setSearchOpen(false);
+                  } else {
+                    setSearchOpen(false);
+                  }
+                } else {
+                  setSearchOpen(true);
+                }
+              }}
+              title="검색"
+              aria-label="검색창 열기/검색 실행"
+              className={`w-9 h-9 flex items-center justify-center rounded-xl border transition-all duration-300 cursor-pointer ${
+                searchOpen
+                  ? "border-[#ff3c00] bg-[#ff3c00]/10 text-[#ff3c00]"
+                  : "border-white/10 hover:border-white/30 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 hover:text-white"
+              }`}
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
+          </div>
           <a
             href="http://1004house.co.kr"
             title="홈으로 이동"
@@ -112,11 +212,28 @@ export function Navbar() {
           }`}
       >
         <nav className="flex flex-col px-6 py-4 gap-1 bg-black/60 backdrop-blur-xl">
+          {/* Mobile Search Input */}
+          <div className="relative w-full mb-3">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-xs">🔍</span>
+            <input
+              type="text"
+              value={searchVal}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchVal.trim()) {
+                  closeMobile();
+                  router.push(`/posts?search=${encodeURIComponent(searchVal.trim())}`);
+                }
+              }}
+              placeholder="웹진 검색..."
+              className="w-full bg-white/[0.03] border border-white/10 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-white/30 outline-none focus:border-white/20 transition-all"
+            />
+          </div>
           <Link
             href="/posts"
             onClick={closeMobile}
             className={`py-3 px-4 rounded-xl text-sm font-medium transition-all ${isWebzineActive
-              ? "text-[#ff3c00] bg-[#ff3c00]/10 font-semibold"
+              ? "text-white bg-white/10 font-semibold"
               : "text-white/70 hover:text-white hover:bg-white/5"
               }`}
           >
@@ -126,7 +243,7 @@ export function Navbar() {
             href="/sponsorship"
             onClick={closeMobile}
             className={`py-3 px-4 rounded-xl text-sm font-medium transition-all ${isSponsorshipActive
-              ? "text-[#ff3c00] bg-[#ff3c00]/10 font-semibold"
+              ? "text-white bg-white/10 font-semibold"
               : "text-white/70 hover:text-white hover:bg-white/5"
               }`}
           >
@@ -155,10 +272,10 @@ export function Navbar() {
           <Link
             href="/login"
             onClick={closeMobile}
-            className="py-3 px-4 rounded-xl text-sm text-white/60 hover:text-[#ff3c00] transition-all hover:bg-white/5 flex items-center gap-2.5 font-mono"
+            className="py-3 px-4 rounded-xl text-sm text-white/60 hover:text-white transition-all hover:bg-white/5 flex items-center gap-2.5 font-mono"
           >
             <svg
-              className="w-4 h-4 text-[#ff3c00]/70"
+              className="w-4 h-4 text-white/40"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -174,5 +291,21 @@ export function Navbar() {
         </nav>
       </div>
     </header>
+  );
+}
+
+export function Navbar() {
+  return (
+    <Suspense fallback={
+      <header className="border-b border-white/10 backdrop-blur-xl bg-black/40 h-[69px] sticky top-0 z-50 transition-all duration-300">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <span className="font-sans font-bold text-base tracking-wide text-white/40">보금자리 웹진</span>
+          </div>
+        </div>
+      </header>
+    }>
+      <NavbarContent />
+    </Suspense>
   );
 }
