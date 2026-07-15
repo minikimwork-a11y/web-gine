@@ -130,6 +130,7 @@ export default function AdminPage() {
   const [sponsorships, setSponsorships] = useState<Sponsorship[]>([]);
   const [loadingSpons, setLoadingSpons] = useState(false);
   const [selectedSpons, setSelectedSpons] = useState<Sponsorship | null>(null);
+  const [showPrintModal, setShowPrintModal] = useState(false);
 
   // Reveal toggle states for PII masking
   const [revealJumin, setRevealJumin] = useState(false);
@@ -1163,6 +1164,12 @@ export default function AdminPage() {
                         </div>
                         <div className="flex gap-2">
                           <button
+                            onClick={() => setShowPrintModal(true)}
+                            className="bg-emerald-950/20 hover:bg-emerald-900/40 border border-emerald-900/30 text-emerald-400 hover:text-emerald-300 font-bold px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer flex items-center gap-1"
+                          >
+                            <span>📄</span> 신청서 인쇄
+                          </button>
+                          <button
                             onClick={() => handleDeleteSponsorship(selectedSpons.id)}
                             className="bg-red-950/20 hover:bg-red-900/40 border border-red-900/30 text-red-400 hover:text-red-300 font-bold px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
                           >
@@ -1341,6 +1348,313 @@ export default function AdminPage() {
           </div>
         )}
       </main>
+
+      {/* Sponsorship Application Document Print Modal */}
+      {showPrintModal && selectedSpons && (
+        <SponsorshipPrintModal
+          sponsorship={selectedSpons}
+          onClose={() => setShowPrintModal(false)}
+          getTypeName={getTypeName}
+        />
+      )}
+    </div>
+  );
+}
+
+// Separate print-only component to avoid complex IIFE parsing errors in Next.js build
+interface PrintModalProps {
+  sponsorship: Sponsorship;
+  onClose: () => void;
+  getTypeName: (type: string) => string;
+}
+
+function SponsorshipPrintModal({ sponsorship, onClose, getTypeName }: PrintModalProps) {
+  const d = new Date(sponsorship.created_at);
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1;
+  const date = d.getDate();
+  const formattedDateTime = `${year}-${String(month).padStart(2, "0")}-${String(date).padStart(2, "0")} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}:${String(d.getSeconds()).padStart(2, "0")}`;
+
+  return (
+    <div className="fixed inset-0 bg-black/80 z-[999] overflow-y-auto flex flex-col items-center py-8 print:p-0 print:bg-white print:absolute print:inset-auto print:w-full print:h-auto">
+      {/* Control Bar (hidden during print) */}
+      <div className="w-full max-w-[210mm] bg-zinc-900 border border-white/10 rounded-2xl p-4 mb-6 flex justify-between items-center print:hidden shadow-2xl">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-xs font-mono font-bold text-white/90">📄 신청 서식 출력 미리보기</span>
+        </div>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl font-bold text-xs cursor-pointer flex items-center gap-1.5 shadow-lg active:scale-95 transition-all"
+          >
+            🖨️ 이 신청서 인쇄하기
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-4 py-2 rounded-xl text-xs cursor-pointer transition-all active:scale-95"
+          >
+            닫기 ✕
+          </button>
+        </div>
+      </div>
+
+      {/* Print Pages Container */}
+      <div className="print-document-container flex flex-col gap-8 print:gap-0">
+        {/* PAGE 1: 후원금(품) 기부 신청서 */}
+        <div className="print-page flex flex-col justify-between bg-white text-black p-[15mm] sm:p-[20mm] shadow-2xl relative w-[210mm] h-[297mm] box-border select-none border border-black/5 print:border-none print:shadow-none">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-center mt-2 mb-8 tracking-wide">후원금(품) 기부 신청서</h2>
+            
+            {/* 기부자 인적사항 */}
+            <h3 className="font-bold text-xs sm:text-sm mb-2 text-left">■ 기부자 인적사항</h3>
+            <table className="w-full border-collapse border border-black text-[11px] sm:text-xs mb-6 text-left">
+              <tbody>
+                <tr>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center w-[15%]">성명(단체명)</td>
+                  <td className="border border-black p-2 w-[35%] font-medium">{sponsorship.name}</td>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center w-[15%]">주민(사업자)번호</td>
+                  <td className="border border-black p-2 w-[35%] font-mono">
+                    {sponsorship.jumin_no || sponsorship.bank_birth || '(공란)'}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center">연락처</td>
+                  <td className="border border-black p-2 font-medium">{sponsorship.phone}</td>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center">팩 스</td>
+                  <td className="border border-black p-2">{sponsorship.fax || '(공란)'}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center">이메일</td>
+                  <td className="border border-black p-2 font-mono">{sponsorship.email || '(공란)'}</td>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center">주소 구분</td>
+                  <td className="border border-black p-2 font-medium">
+                    {sponsorship.address_type === 'home' ? '자택' : '직장'}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center">주 소</td>
+                  <td className="border border-black p-2 font-medium" colSpan={3}>
+                    {sponsorship.zipcode ? `[${sponsorship.zipcode}] ` : ''}
+                    {sponsorship.address || ''} {sponsorship.address_detail || ''}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* 기부 정보 */}
+            <h3 className="font-bold text-xs sm:text-sm mb-2 text-left">■ 기부 정보</h3>
+            <table className="w-full border-collapse border border-black text-[11px] sm:text-xs mb-6 text-left">
+              <tbody>
+                <tr>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center w-[15%]">후원 유형</td>
+                  <td className="border border-black p-2 font-bold" colSpan={3}>
+                    {getTypeName(sponsorship.type)}
+                  </td>
+                </tr>
+                {sponsorship.type === 'goods' ? (
+                  <>
+                    <tr>
+                      <td className="border border-black bg-gray-50 p-2 font-bold text-center w-[15%]">물품 후원 내용</td>
+                      <td className="border border-black p-2 w-[35%] font-medium leading-relaxed">{sponsorship.goods_desc || '(공란)'}</td>
+                      <td className="border border-black bg-gray-50 p-2 font-bold text-center w-[15%]">후원처리 금액</td>
+                      <td className="border border-black p-2 w-[35%] font-bold text-red-600">
+                        {sponsorship.goods_valuation ? `${sponsorship.goods_valuation.toLocaleString()} 원` : '(공란)'}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="border border-black bg-gray-50 p-2 font-bold text-center">물품 사진</td>
+                      <td className="border border-black p-2" colSpan={3}>
+                        <div className="flex justify-center items-center py-1">
+                          {sponsorship.goods_photo_url ? (
+                            <img src={sponsorship.goods_photo_url} alt="Goods Attached" className="max-h-28 object-contain print:max-h-24 print:opacity-100" />
+                          ) : (
+                            <span className="text-gray-400 font-mono text-[10px]">(첨부된 사진이 없습니다)</span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  </>
+                ) : (
+                  <tr>
+                    <td className="border border-black bg-gray-50 p-2 font-bold text-center w-[15%]">후원금 액</td>
+                    <td className="border border-black p-2 font-bold text-red-600" colSpan={3}>
+                      {sponsorship.amount ? `${sponsorship.amount.toLocaleString()} 원` : '(공란)'}
+                      {sponsorship.pay_method && ` (${sponsorship.pay_method === 'CMS' ? 'CMS 자동이체 계좌 등록' : '직접 송금'})`}
+                    </td>
+                  </tr>
+                )}
+                <tr>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center w-[15%]">상세 희망내용</td>
+                  <td className="border border-black p-2 leading-relaxed" colSpan={3}>
+                    {sponsorship.amount_desc || '(없음)'}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* 기부금 영수증 발행 설정 */}
+            <h3 className="font-bold text-xs sm:text-sm mb-2 text-left">■ 기부금 영수증 발행 설정</h3>
+            <table className="w-full border-collapse border border-black text-[11px] sm:text-xs mb-6 text-left">
+              <tbody>
+                <tr>
+                  <td className="border border-black bg-gray-50 p-2 font-bold text-center w-[15%]">발행 설정</td>
+                  <td className="border border-black p-2 font-bold" colSpan={3}>
+                    {sponsorship.receipt_opt === 'personal' ? '개인 (소득공제용)' : 
+                     sponsorship.receipt_opt === 'business' ? '사업자/단체 (소득공제용)' : '발행하지 않음'}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* 법인세 고지 */}
+            <div className="border border-black p-3 text-[10px] leading-relaxed text-gray-700 bg-gray-50 rounded-sm text-left">
+              ※ 보내주신 후원금(품)은 법인세법 제24조 및 소득세법 제34조에 의거하여 소득공제 혜택을 받으실 수 있으며, 국세청 연말정산 간소화 서비스를 통해 조회할 수 있도록 자동 등록해 드립니다.
+            </div>
+          </div>
+
+          {/* 하단 서명란 및 날짜 */}
+          <div className="space-y-4">
+            <div className="text-center font-bold text-xs sm:text-sm tracking-wide">
+              {year} 년 {String(month).padStart(2, "0")} 월 {String(date).padStart(2, "0")} 일
+            </div>
+
+            <div className="flex justify-between items-center px-6 py-2">
+              <div className="w-1/3"></div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-xs sm:text-sm whitespace-nowrap">기부자(신청인):</span>
+                <span className="border-b border-black w-28 text-center pb-0.5 font-bold text-xs sm:text-sm min-h-[1.5rem] inline-block relative">
+                  {sponsorship.signature_data && (
+                    <img 
+                      src={sponsorship.signature_data} 
+                      alt="Signature" 
+                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-auto max-w-none object-contain print:opacity-100 z-50" 
+                      style={{ filter: 'invert(1)' }}
+                    />
+                  )}
+                </span>
+              </div>
+            </div>
+
+            <div className="text-[9px] text-gray-400 text-left leading-normal">
+              ※ 본 신청서는 1004보금자리 온라인 신청 서비스를 통해 기부자가 직접 내용을 확인하고 친필로 전자서명(사인)하여 제출한 문서입니다. (신청일시: {formattedDateTime} / ONLINE 전자서명 적용)
+            </div>
+
+            <div className="text-center font-extrabold text-sm sm:text-base tracking-[0.6em] pl-[0.6em] py-2 uppercase text-black">
+              1 0 0 4 보 금 자 리 귀 하
+            </div>
+          </div>
+        </div>
+
+        {/* PAGE 2: 개인정보 동의서 */}
+        <div className="print-page flex flex-col justify-between bg-white text-black p-[15mm] sm:p-[20mm] shadow-2xl relative w-[210mm] h-[297mm] box-border select-none border border-black/5 print:border-none print:shadow-none">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-center mt-2 mb-8 tracking-wide">개인정보 수집·이용 및 제3자 제공 동의서</h2>
+            
+            <p className="text-[10px] sm:text-xs leading-relaxed mb-6 text-gray-700 text-left">
+              본 시설은 기부금 연말정산 공제 혜택 제공 및 정기후원금(CMS)의 안전한 인출 처리를 위해 아래와 같이 개인정보를 수집·이용 및 제3자에게 제공하고자 합니다. 내용을 자세히 읽으신 후 동의 여부를 결정해 주시기 바랍니다.
+            </p>
+
+            {/* 1. 개인정보 수집 및 이용 동의 */}
+            <h3 className="font-bold text-xs sm:text-sm mb-2 text-left">■ 개인정보 수집 및 이용 동의 (필수)</h3>
+            <table className="w-full border-collapse border border-black text-[10px] sm:text-xs mb-3 text-left">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="border border-black p-2 font-bold text-center w-[25%]">수집 항목</th>
+                  <th className="border border-black p-2 font-bold text-center w-[50%]">수집 및 이용 목적</th>
+                  <th className="border border-black p-2 font-bold text-center w-[25%]">보유 및 이용 기간</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-black p-2 leading-relaxed">
+                    이름, 연락처, 주민등록번호(사업자번호), 주소, 이메일, 계좌정보(CMS 신청 시)
+                  </td>
+                  <td className="border border-black p-2 leading-relaxed">
+                    기부금 영수증 발급 명세 관리, 연말정산 간소화 기부 내역 등록, CMS 정기후원 신청 대행 및 결과 안내
+                  </td>
+                  <td className="border border-black p-2 leading-relaxed">
+                    기부 개시일 또는 동의일로부터 기부 해지 후 5년까지 (법정 의무 보유 기간)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="text-right text-[10px] sm:text-xs font-bold mb-6">
+              위 개인정보 수집 및 이용에 동의하십니까? &nbsp;&nbsp;&nbsp;&nbsp; [ 동의함 (∨) ]
+            </div>
+
+            {/* 2. 제3자 제공 동의 */}
+            <h3 className="font-bold text-xs sm:text-sm mb-2 text-left">■ 개인정보 제3자 제공 동의 (필수)</h3>
+            <table className="w-full border-collapse border border-black text-[10px] sm:text-xs mb-3 text-left">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="border border-black p-2 font-bold text-center w-[20%]">제공받는 기관</th>
+                  <th className="border border-black p-2 font-bold text-center w-[35%]">제공 항목</th>
+                  <th className="border border-black p-2 font-bold text-center w-[45%]">제공받는 기관의 이용 목적</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-black p-2 font-bold text-center">국세청</td>
+                  <td className="border border-black p-2 leading-relaxed">주민등록번호, 성명, 기부금액 및 일자</td>
+                  <td className="border border-black p-2 leading-relaxed">연말정산 간소화 서비스 기부금 자료 통합 등록 및 소득공제 신고 자동화</td>
+                </tr>
+                <tr>
+                  <td className="border border-black p-2 font-bold text-center">금융결제원</td>
+                  <td className="border border-black p-2 leading-relaxed">예금주 생년월일, 예금주명, 금융기관명, 계좌번호</td>
+                  <td className="border border-black p-2 leading-relaxed">CMS 정기후원 자동이체 신청 수납, 출금 계좌 등록 및 승인</td>
+                </tr>
+                <tr>
+                  <td className="border border-black p-2 font-bold text-center">효성FMS(주)</td>
+                  <td className="border border-black p-2 leading-relaxed">예금주 생년월일, 예금주명, 연락처, 계좌번호</td>
+                  <td className="border border-black p-2 leading-relaxed">정기후원금(CMS) 출금 신청 대행, 수납 대행 및 출금 내역 확인</td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="text-right text-[10px] sm:text-xs font-bold mb-6">
+              위 개인정보 제3자 제공에 동의하십니까? &nbsp;&nbsp;&nbsp;&nbsp; [ 동의함 (∨) ]
+            </div>
+
+            <p className="text-[9px] text-gray-500 leading-normal text-left">
+              * 귀하는 위의 개인정보 수집·이용 및 제3자 제공에 대한 동의를 거부할 권리가 있습니다. 단, 동의를 거부하실 경우 법적으로 소득공제 혜택(기부금 영수증 국세청 등록)을 받으실 수 없으며, CMS 정기후원 신청이 제한됩니다.
+            </p>
+          </div>
+
+          {/* 하단 서명란 및 날짜 */}
+          <div className="space-y-4">
+            <div className="text-center font-bold text-xs sm:text-sm tracking-wide">
+              {year} 년 {String(month).padStart(2, "0")} 월 {String(date).padStart(2, "0")} 일
+            </div>
+
+            <div className="flex justify-between items-center px-6 py-2">
+              <div className="w-1/3"></div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-xs sm:text-sm whitespace-nowrap">신청인(기부자):</span>
+                <span className="border-b border-black w-28 text-center pb-0.5 font-bold text-xs sm:text-sm min-h-[1.5rem] inline-block relative">
+                  {sponsorship.signature_data && (
+                    <img 
+                      src={sponsorship.signature_data} 
+                      alt="Signature" 
+                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-auto max-w-none object-contain print:opacity-100 z-50" 
+                      style={{ filter: 'invert(1)' }}
+                    />
+                  )}
+                </span>
+              </div>
+            </div>
+
+            <div className="text-[9px] text-gray-400 text-left leading-normal">
+              ※ 본 동의서는 1004보금자리 온라인 신청 서비스를 통해 기부자(및 예금주)가 직접 동의 내역을 확인하고 친필로 전자서명(사인)하여 제출한 문서입니다. (동의일시: {formattedDateTime} / ONLINE 전자서명 적용)
+            </div>
+
+            <div className="text-center font-extrabold text-sm sm:text-base tracking-[0.6em] pl-[0.6em] py-2 uppercase text-black">
+              1 0 0 4 보 금 자 리 귀 하
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
