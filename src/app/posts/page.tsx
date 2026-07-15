@@ -16,6 +16,8 @@ export default function PostsPage() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
 
   // Bottom sheet state
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
@@ -25,7 +27,15 @@ export default function PostsPage() {
   // Carousel state for bottom sheet
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const fetchPublishedPosts = useCallback(async (pageIndex: number, isInitial = false) => {
+  // Debounce search input to avoid hitting database on every keystroke
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const fetchPublishedPosts = useCallback(async (pageIndex: number, isInitial = false, queryWord = "") => {
     if (isInitial) {
       setLoading(true);
     } else {
@@ -36,12 +46,17 @@ export default function PostsPage() {
       const from = pageIndex * POSTS_PER_PAGE;
       const to = from + POSTS_PER_PAGE - 1;
 
-      const { data, error } = await supabase
+      let dbQuery = supabase
         .from("posts")
         .select("id, title, excerpt, cover_image, published_at, created_at")
         .eq("is_published", true)
-        .order("published_at", { ascending: false })
-        .range(from, to);
+        .order("published_at", { ascending: false });
+
+      if (queryWord.trim()) {
+        dbQuery = dbQuery.or(`title.ilike.%${queryWord.trim()}%,excerpt.ilike.%${queryWord.trim()}%`);
+      }
+
+      const { data, error } = await dbQuery.range(from, to);
 
       if (error) throw error;
 
@@ -65,14 +80,16 @@ export default function PostsPage() {
     }
   }, []);
 
+  // Re-fetch posts from page 0 when the search query settles
   useEffect(() => {
-    fetchPublishedPosts(0, true);
-  }, [fetchPublishedPosts]);
+    setPage(0);
+    fetchPublishedPosts(0, true, debouncedQuery);
+  }, [debouncedQuery, fetchPublishedPosts]);
 
   const loadMorePosts = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    fetchPublishedPosts(nextPage, false);
+    fetchPublishedPosts(nextPage, false, debouncedQuery);
   };
 
   // Fetch full post data for bottom sheet
@@ -148,6 +165,26 @@ export default function PostsPage() {
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-6 py-8">
+        {/* Search Bar Input */}
+        <div className="relative w-full max-w-md mb-8 z-10">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm">🔍</span>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="웹진 제목이나 설명으로 검색해보세요..."
+            className="w-full bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 focus:border-[#ff3c00]/60 rounded-2xl pl-10 pr-10 py-3.5 text-xs text-white placeholder-white/30 outline-none transition-all duration-300 backdrop-blur-md shadow-inner"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors cursor-pointer text-xs font-bold"
+              title="검색어 초기화"
+            >
+              ✕
+            </button>
+          )}
+        </div>
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-12">
             {[1, 2, 3].map((n) => (
