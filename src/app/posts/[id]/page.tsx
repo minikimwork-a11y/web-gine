@@ -162,7 +162,15 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                         <img
                           src={imgSrc}
                           alt={`${post.title} 사진 ${idx + 1}`}
-                          className="relative z-10 max-h-full w-auto object-contain mx-auto"
+                          className="relative z-10 max-h-full w-auto object-contain mx-auto pointer-events-none select-none"
+                          onContextMenu={(e) => e.preventDefault()}
+                          onDragStart={(e) => e.preventDefault()}
+                        />
+                        {/* Transparent guard overlay to block right-click saving */}
+                        <div 
+                          className="absolute inset-0 bg-transparent z-20" 
+                          onContextMenu={(e) => e.preventDefault()} 
+                          onDragStart={(e) => e.preventDefault()}
                         />
                       </div>
                     ))}
@@ -209,8 +217,10 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
 
             {/* Body Content */}
             <div
-              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline"
+              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline [&_img]:pointer-events-none [&_img]:select-none"
               style={{ wordBreak: "break-word" }}
+              onContextMenu={(e) => e.preventDefault()}
+              onDragStart={(e) => e.preventDefault()}
               dangerouslySetInnerHTML={{ __html: formatHtmlContent(post.content) }}
             />
 
