@@ -1,16 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
-import { decodeHtml, getCoverImageUrl } from "@/lib/html";
-import type { PostSummary } from "@/types/post";
+import { BottomSheet } from "@/components/ui/bottom-sheet";
+import { decodeHtml, getCoverImageUrl, getImages } from "@/lib/html";
+import type { Post, PostSummary } from "@/types/post";
 
 export default function PostsPage() {
   const [posts, setPosts] = useState<PostSummary[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Bottom sheet state
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [detailLoading, setDetailLoading] = useState(false);
+
+  // Carousel state for bottom sheet
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const fetchPublishedPosts = async () => {
@@ -32,6 +40,56 @@ export default function PostsPage() {
 
     fetchPublishedPosts();
   }, []);
+
+  // Fetch full post data for bottom sheet
+  const openPostDetail = useCallback(async (postId: string) => {
+    setDetailLoading(true);
+    setSheetOpen(true);
+    setCurrentSlide(0);
+
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("id", postId)
+        .eq("is_published", true)
+        .single();
+
+      if (error) throw error;
+      setSelectedPost(data);
+    } catch (err) {
+      console.error("Error fetching post detail:", err);
+    } finally {
+      setDetailLoading(false);
+    }
+  }, []);
+
+  const closeSheet = () => {
+    setSheetOpen(false);
+    setSelectedPost(null);
+  };
+
+  // Carousel helpers
+  const images = selectedPost ? getImages(selectedPost.cover_image) : [];
+  const handlePrevSlide = () => setCurrentSlide((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  const handleNextSlide = () => setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+
+  // Share handler
+  const handleShare = async () => {
+    if (!selectedPost) return;
+    const shareUrl = `${window.location.origin}/posts/${selectedPost.id}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: decodeHtml(selectedPost.title),
+          url: shareUrl,
+        });
+      } catch { /* user cancelled */ }
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      alert("링크가 복사되었습니다!");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative flex flex-col overflow-x-hidden">
@@ -83,10 +141,10 @@ export default function PostsPage() {
             {posts.map((post) => {
               const coverUrl = getCoverImageUrl(post.cover_image);
               return (
-                <Link
+                <button
                   key={post.id}
-                  href={`/posts/${post.id}`}
-                  className="group bg-black/30 border border-white/10 hover:border-[#ff3c00]/30 hover:bg-black/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col h-full shadow-lg relative border-beam-card"
+                  onClick={() => openPostDetail(post.id)}
+                  className="group bg-black/30 border border-white/10 hover:border-[#ff3c00]/30 hover:bg-black/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col h-full shadow-lg relative border-beam-card text-left cursor-pointer"
                 >
                   <div className="border-beam-container" />
                   {/* Image container */}
@@ -126,7 +184,7 @@ export default function PostsPage() {
                       자세히 읽기 <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
                     </div>
                   </div>
-                </Link>
+                </button>
               );
             })}
           </div>
@@ -134,6 +192,142 @@ export default function PostsPage() {
       </main>
 
       <Footer />
+
+      {/* ===== Bottom Sheet Modal for Post Detail ===== */}
+      <BottomSheet
+        isOpen={sheetOpen}
+        onClose={closeSheet}
+        title={selectedPost ? decodeHtml(selectedPost.title) : "로딩 중..."}
+      >
+        {detailLoading ? (
+          <div className="space-y-6 animate-pulse py-8">
+            <div className="h-4 bg-white/5 rounded w-1/4" />
+            <div className="h-8 bg-white/5 rounded w-3/4" />
+            <div className="h-56 bg-white/5 rounded-2xl w-full" />
+            <div className="space-y-3">
+              <div className="h-4 bg-white/5 rounded w-full" />
+              <div className="h-4 bg-white/5 rounded w-full" />
+              <div className="h-4 bg-white/5 rounded w-5/6" />
+            </div>
+          </div>
+        ) : selectedPost ? (
+          <article className="space-y-6 animate-fadeIn">
+            {/* Meta */}
+            <div className="space-y-3">
+              <span className="text-xs font-mono text-[#ff3c00] tracking-widest font-bold block uppercase">
+                {new Date(selectedPost.published_at).toLocaleDateString("ko-KR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+              {selectedPost.excerpt && (
+                <p className="text-sm text-white/50 border-l-2 border-[#ff3c00] pl-4 leading-relaxed">
+                  {decodeHtml(selectedPost.excerpt)}
+                </p>
+              )}
+            </div>
+
+            {/* Images Carousel */}
+            {images.length > 0 && (
+              <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-zinc-950 group/carousel">
+                {/* Slides Track */}
+                <div className="relative h-[220px] sm:h-[320px] w-full overflow-hidden">
+                  <div
+                    className="flex h-full w-full transition-transform duration-500 ease-in-out"
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                  >
+                    {images.map((imgSrc, idx) => (
+                      <div key={idx} className="flex-shrink-0 w-full h-full relative flex items-center justify-center overflow-hidden">
+                        <div
+                          className="absolute inset-0 bg-cover bg-center blur-md opacity-35 scale-105 pointer-events-none"
+                          style={{ backgroundImage: `url(${imgSrc})` }}
+                        />
+                        <img
+                          src={imgSrc}
+                          alt={`${selectedPost.title} 사진 ${idx + 1}`}
+                          className="relative z-10 max-h-full w-auto object-contain mx-auto"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Navigation Arrows - always visible on mobile */}
+                {images.length > 1 && (
+                  <>
+                    <button
+                      onClick={handlePrevSlide}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ff3c00] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
+                      aria-label="이전 사진"
+                    >
+                      &larr;
+                    </button>
+                    <button
+                      onClick={handleNextSlide}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ff3c00] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
+                      aria-label="다음 사진"
+                    >
+                      &rarr;
+                    </button>
+
+                    {/* Dots indicator */}
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                      {images.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentSlide(idx)}
+                          className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
+                            currentSlide === idx ? "bg-[#ff3c00] w-4" : "bg-white/40 hover:bg-white/80"
+                          }`}
+                          aria-label={`${idx + 1}번째 슬라이드로 이동`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* Divider */}
+            <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+            {/* Body Content */}
+            <div
+              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full"
+              style={{ wordBreak: "break-word" }}
+              dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+            />
+
+            {/* Action Buttons */}
+            <div className="pt-6 border-t border-white/10">
+              <div className="flex gap-3">
+                <button
+                  onClick={handleShare}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-white/10 hover:border-[#ff3c00]/30 bg-white/[0.03] hover:bg-white/[0.06] text-white/70 hover:text-white transition-all duration-300 cursor-pointer text-sm font-medium"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                    <polyline points="16 6 12 2 8 6" />
+                    <line x1="12" x2="12" y1="2" y2="15" />
+                  </svg>
+                  공유하기
+                </button>
+                <button
+                  onClick={closeSheet}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-white/70 hover:text-white transition-all duration-300 cursor-pointer text-sm font-medium border border-white/10"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                  닫기
+                </button>
+              </div>
+            </div>
+          </article>
+        ) : null}
+      </BottomSheet>
     </div>
   );
 }

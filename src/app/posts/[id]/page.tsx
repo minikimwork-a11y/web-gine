@@ -174,14 +174,14 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                   <>
                     <button
                       onClick={handlePrev}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-[#ff3c00] text-white p-2.5 rounded-full z-20 transition-all opacity-0 group-hover/carousel:opacity-100 cursor-pointer shadow-md"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ff3c00] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
                       aria-label="이전 사진"
                     >
                       &larr;
                     </button>
                     <button
                       onClick={handleNext}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-[#ff3c00] text-white p-2.5 rounded-full z-20 transition-all opacity-0 group-hover/carousel:opacity-100 cursor-pointer shadow-md"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ff3c00] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
                       aria-label="다음 사진"
                     >
                       &rarr;

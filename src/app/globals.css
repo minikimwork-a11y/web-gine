@@ -27,6 +27,31 @@ body {
 }
 
 /* ==========================================
+   Dark Scrollbar for Bottom Sheet
+   ========================================== */
+.dark-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+.dark-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.dark-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dark-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+.dark-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================
    Border Beam (Perimeter Hover Effect)
    ========================================== */
 .border-beam-card {
@@ -82,5 +107,59 @@ body {
   to {
     transform: translate(-50%, -50%) rotate(360deg);
   }
+}
+
+/* ==========================================
+   Bottom Sheet Animations
+   ========================================== */
+@keyframes bottomSheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bottomSheetDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
 }
 
