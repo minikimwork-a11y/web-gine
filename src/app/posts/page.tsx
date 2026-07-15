@@ -20,8 +20,6 @@ function PostsContent() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(initialSearch);
-  const [debouncedQuery, setDebouncedQuery] = useState(initialSearch);
 
   // Bottom sheet state
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
@@ -30,19 +28,6 @@ function PostsContent() {
 
   // Carousel state for bottom sheet
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Synchronize initialSearch query parameter when URL updates
-  useEffect(() => {
-    setSearchQuery(initialSearch);
-  }, [initialSearch]);
-
-  // Debounce search input to avoid hitting database on every keystroke
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
 
   const fetchPublishedPosts = useCallback(async (pageIndex: number, isInitial = false, queryWord = "") => {
     if (isInitial) {
@@ -89,16 +74,16 @@ function PostsContent() {
     }
   }, []);
 
-  // Re-fetch posts from page 0 when the search query settles
+  // Re-fetch posts immediately when the URL search parameter updates
   useEffect(() => {
     setPage(0);
-    fetchPublishedPosts(0, true, debouncedQuery);
-  }, [debouncedQuery, fetchPublishedPosts]);
+    fetchPublishedPosts(0, true, initialSearch);
+  }, [initialSearch, fetchPublishedPosts]);
 
   const loadMorePosts = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    fetchPublishedPosts(nextPage, false, debouncedQuery);
+    fetchPublishedPosts(nextPage, false, initialSearch);
   };
 
   // Fetch full post data for bottom sheet

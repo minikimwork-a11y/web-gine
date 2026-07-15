@@ -44,7 +44,7 @@ function NavbarContent() {
           router.replace(`/posts`, { scroll: false });
         }
       }
-    }, 200); // 200ms debounce
+    }, 150); // 150ms debounce
     return () => clearTimeout(timer);
   }, [searchVal, urlSearch, pathname, router]);
 
