@@ -46,6 +46,68 @@ export const sanitizeHtml = (html: string | null): string => {
 };
 
 /**
+ * Format HTML/Plain text content by converting newlines to <br /> tags,
+ * while preserving formatting around block-level HTML tags.
+ */
+export const formatHtmlContent = (html: string | null): string => {
+  if (!html) return "";
+  
+  // First sanitize
+  const sanitized = sanitizeHtml(html);
+  
+  // If it doesn't contain any HTML tags, convert all newlines to <br />
+  if (!/<[a-z/][^>]*>/i.test(sanitized)) {
+    return sanitized.replace(/\n/g, "<br />");
+  }
+  
+  // Split HTML into tags and text segments
+  const parts = sanitized.split(/(<[^>]+>)/g);
+  let result = "";
+  
+  // Block level HTML tags list
+  const blockTags = /<\/?(ul|ol|li|h[1-6]|p|div|blockquote|table|tr|td|th|thead|tbody|option|select|pre|section|article|header|footer)/i;
+  
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i];
+    if (part.startsWith("<") && part.endsWith(">")) {
+      result += part;
+    } else {
+      let text = part;
+      
+      const prevTag = i > 0 ? parts[i - 1] : "";
+      const nextTag = i < parts.length - 1 ? parts[i + 1] : "";
+      
+      const isPrevBlock = blockTags.test(prevTag);
+      const isNextBlock = blockTags.test(nextTag);
+      
+      if (isPrevBlock || isNextBlock) {
+        // If it's purely whitespace and adjacent to block tags, keep it as is
+        if (/^\s*$/.test(text)) {
+          result += text;
+          continue;
+        }
+      }
+      
+      // Strip exactly one leading newline if the previous tag is block level
+      if (isPrevBlock && text.startsWith("\n")) {
+        text = text.substring(1);
+      }
+      
+      // Strip exactly one trailing newline if the next tag is block level
+      if (isNextBlock && text.endsWith("\n")) {
+        text = text.substring(0, text.length - 1);
+      }
+      
+      // Convert remaining newlines to <br />
+      result += text.replace(/\n/g, "<br />");
+    }
+  }
+  
+  return result;
+};
+
+
+/**
  * Mask resident registration number (주민등록번호).
  * Format: 000000-0000000 -> 000000-0******
  */

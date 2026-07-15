@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
-import { maskJumin, maskBankAccount, sanitizeHtml } from "@/lib/html";
+import { maskJumin, maskBankAccount, formatHtmlContent } from "@/lib/html";
 
 interface Post {
   id: string;
@@ -1010,7 +1010,7 @@ export default function AdminPage() {
                       <div
                         className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-4 [&_h3]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline"
                         style={{ wordBreak: "break-word" }}
-                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(editorContent) }}
+                        dangerouslySetInnerHTML={{ __html: formatHtmlContent(editorContent) }}
                       />
                     ) : (
                       <div className="flex flex-col items-center justify-center h-[200px] text-white/40 text-xs">
