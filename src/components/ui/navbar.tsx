@@ -64,7 +64,7 @@ function NavbarContent() {
         {/* Logo / Branding */}
         <a href="http://1004house.co.kr" className="flex items-center gap-3 group" onClick={closeMobile}>
           <img src="/logo.png" alt="1004 보금자리 로고" className="h-9 object-contain filter brightness-125 drop-shadow-[0_0_1px_rgba(255,255,255,0.5)] transition-transform group-hover:scale-105" />
-          <span className="font-sans font-bold text-base tracking-wide text-white group-hover:text-[#ff3c00] transition-colors hidden sm:inline-block">
+          <span className="font-sans font-bold text-base tracking-wide text-white group-hover:text-[#0ea5e9] transition-colors hidden sm:inline-block">
             보금자리 웹진
           </span>
         </a>
@@ -74,25 +74,25 @@ function NavbarContent() {
           <Link
             href="/posts"
             className={`text-sm font-medium transition-all duration-300 relative py-1.5 ${isWebzineActive
-              ? "text-[#ff3c00] font-semibold"
+              ? "text-[#0ea5e9] font-semibold"
               : "text-white/60 hover:text-white"
               }`}
           >
             웹진 소식
             {isWebzineActive && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#ff3c00] rounded-full" />
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#0ea5e9] rounded-full" />
             )}
           </Link>
           <Link
             href="/sponsorship"
             className={`text-sm font-medium transition-all duration-300 relative py-1.5 ${isSponsorshipActive
-              ? "text-[#ff3c00] font-semibold"
+              ? "text-[#0ea5e9] font-semibold"
               : "text-white/60 hover:text-white"
               }`}
           >
             따뜻한 후원
             {isSponsorshipActive && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#ff3c00] rounded-full" />
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#0ea5e9] rounded-full" />
             )}
           </Link>
         </nav>
@@ -112,7 +112,7 @@ function NavbarContent() {
                 }
               }}
               placeholder="검색어 입력..."
-              className={`bg-white/[0.03] text-xs text-white placeholder-white/30 outline-none transition-all duration-300 rounded-xl focus:border-[#ff3c00]/60 ${
+              className={`bg-white/[0.03] text-xs text-white placeholder-white/30 outline-none transition-all duration-300 rounded-xl focus:border-[#0ea5e9]/60 ${
                 searchOpen 
                   ? "w-36 md:w-44 px-3 py-2 opacity-100 border border-white/15 mr-1" 
                   : "w-0 px-0 py-2 opacity-0 border-none overflow-hidden"
@@ -136,7 +136,7 @@ function NavbarContent() {
               aria-label="검색창 열기/검색 실행"
               className={`w-9 h-9 flex items-center justify-center rounded-xl border transition-all duration-300 cursor-pointer ${
                 searchOpen
-                  ? "border-[#ff3c00] bg-[#ff3c00]/10 text-[#ff3c00]"
+                  ? "border-[#0ea5e9] bg-[#0ea5e9]/10 text-[#0ea5e9]"
                   : "border-white/10 hover:border-white/30 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 hover:text-white"
               }`}
             >
@@ -177,7 +177,7 @@ function NavbarContent() {
             href="/login"
             title="관리자 콘솔 (Admin)"
             aria-label="관리자 콘솔 (Admin)"
-            className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/15 hover:border-[#ff3c00]/60 bg-black/40 hover:bg-[#ff3c00]/10 text-white/70 hover:text-[#ff3c00] transition-all duration-300"
+            className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/15 hover:border-[#0ea5e9]/60 bg-black/40 hover:bg-[#0ea5e9]/10 text-white/70 hover:text-[#0ea5e9] transition-all duration-300"
           >
             <svg
               className="w-4 h-4"

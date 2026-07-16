@@ -48,25 +48,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] flex items-center justify-center relative p-4 font-sans selection:bg-[#ff3c00] selection:text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] flex items-center justify-center relative p-4 font-sans selection:bg-[#0ea5e9] selection:text-white">
       {/* Background visual elements */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#ff3c00]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#0ea5e9]/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Decorative lines / frames */}
-      <div className="absolute top-8 left-8 text-xs font-mono tracking-widest text-[#ff3c00]/40 pointer-events-none">
+      <div className="absolute top-8 left-8 text-xs font-mono tracking-widest text-[#0ea5e9]/40 pointer-events-none">
         1004_BOGUMZARI // SECURE_AUTH
       </div>
       <div className="absolute bottom-8 right-8 text-xs font-mono tracking-widest text-white/20 pointer-events-none">
         SYS_VER_1.0
       </div>
 
-      <div className="w-full max-w-md bg-black/40 border border-white/10 backdrop-blur-xl p-8 md:p-10 rounded-2xl shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-[#ff3c00]/30">
+      <div className="w-full max-w-md bg-black/40 border border-white/10 backdrop-blur-xl p-8 md:p-10 rounded-2xl shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-[#0ea5e9]/30">
         {/* Subtle orange accent bar at the top */}
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#ff3c00] to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#0ea5e9] to-transparent" />
         
         <div className="mb-8 text-center">
-          <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block mb-2">
+          <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block mb-2">
             ADMINISTRATOR
           </span>
           <h2 className="text-3xl font-bold tracking-tight text-white font-[var(--font-syncopate)] uppercase">
@@ -78,7 +78,7 @@ export default function LoginPage() {
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-lg bg-[#ff3c00]/10 border border-[#ff3c00]/20 text-[#ff5522] text-sm text-center font-semibold">
+          <div className="mb-6 p-4 rounded-lg bg-[#0ea5e9]/10 border border-[#0ea5e9]/20 text-[#38bdf8] text-sm text-center font-semibold">
             {error}
           </div>
         )}
@@ -94,7 +94,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="admin@example.com"
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#ff3c00]/60 focus:bg-white/[0.08]"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#0ea5e9]/60 focus:bg-white/[0.08]"
             />
           </div>
 
@@ -108,14 +108,14 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="••••••••"
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#ff3c00]/60 focus:bg-white/[0.08]"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#0ea5e9]/60 focus:bg-white/[0.08]"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#e0e0e0] text-[#0a0a0a] hover:bg-[#ff3c00] hover:text-white disabled:bg-white/10 disabled:text-white/20 font-bold py-3.5 px-4 rounded-lg text-sm tracking-wider transition-all duration-300 shadow-lg cursor-pointer flex items-center justify-center gap-2 group"
+            className="w-full bg-[#e0e0e0] text-[#0a0a0a] hover:bg-[#0ea5e9] hover:text-white disabled:bg-white/10 disabled:text-white/20 font-bold py-3.5 px-4 rounded-lg text-sm tracking-wider transition-all duration-300 shadow-lg cursor-pointer flex items-center justify-center gap-2 group"
             style={{
               clipPath: "polygon(0 0, 100% 0, 100% 75%, 93% 100%, 0 100%)",
             }}

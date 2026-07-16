@@ -29,7 +29,7 @@ export function HeroSection({
   description = "소중한 만남과 따뜻한 나눔이 있는 보금자리 웹진입니다. 함께 나누는 일상 속 아름다운 이야기를 만나보세요.",
   buttonText = "웹진 읽기",
   onButtonClick,
-  colors = ["#ff3c00", "#ff6b35", "#ffb38a", "#fff3ec", "#8ecae6", "#219ebc"],
+  colors = ["#0ea5e9", "#38bdf8", "#7dd3fc", "#bae6fd", "#f0f9ff", "#0284c7"],
   distortion = 0.8,
   swirl = 0.6,
   speed = 0.35,
@@ -68,7 +68,7 @@ export function HeroSection({
             href="/login"
             title="관리자 콘솔 (Admin)"
             aria-label="관리자 콘솔 (Admin)"
-            className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/20 hover:border-[#ff3c00] text-white/80 hover:text-[#ff3c00] transition-all duration-300 backdrop-blur-md bg-black/30"
+            className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/20 hover:border-[#0ea5e9] text-white/80 hover:text-[#0ea5e9] transition-all duration-300 backdrop-blur-md bg-black/30"
           >
             <svg
               className="w-4 h-4"
@@ -105,7 +105,7 @@ export function HeroSection({
             style={{ fontFamily, fontWeight }}
           >
             {title} <br className="sm:hidden" />
-            <span className="text-[#ff3c00] dark:text-[#ff5522]">{highlightText}</span>
+            <span className="text-[#0ea5e9] dark:text-[#38bdf8]">{highlightText}</span>
           </h1>
           <p className={`text-base sm:text-lg text-white/95 text-pretty max-w-2xl mx-auto leading-relaxed mb-10 px-4 drop-shadow ${descriptionClassName}`}>
             {description}
@@ -114,7 +114,7 @@ export function HeroSection({
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full pointer-events-auto">
             <button
               onClick={() => router.push("/posts")}
-              className="px-8 py-4 sm:px-10 sm:py-4.5 rounded-xl border-2 bg-gradient-to-r from-[#ff3c00] to-[#ff5522] border-transparent text-sm sm:text-base font-bold text-white hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 shadow-xl cursor-pointer"
+              className="px-8 py-4 sm:px-10 sm:py-4.5 rounded-xl border-2 bg-gradient-to-r from-[#0ea5e9] to-[#38bdf8] border-transparent text-sm sm:text-base font-bold text-white hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 shadow-xl cursor-pointer"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%)",
               }}
@@ -123,7 +123,7 @@ export function HeroSection({
             </button>
             <button
               onClick={() => window.open("http://1004house.co.kr", "_self")}
-              className="px-8 py-4 sm:px-10 sm:py-4.5 rounded-xl border-2 bg-zinc-900/80 border-white/10 hover:border-[#ff3c00]/40 text-sm sm:text-base font-bold text-white/95 hover:bg-zinc-800 hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl cursor-pointer backdrop-blur-md"
+              className="px-8 py-4 sm:px-10 sm:py-4.5 rounded-xl border-2 bg-zinc-900/80 border-white/10 hover:border-[#0ea5e9]/40 text-sm sm:text-base font-bold text-white/95 hover:bg-zinc-800 hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl cursor-pointer backdrop-blur-md"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%)",
               }}

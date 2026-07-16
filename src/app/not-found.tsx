@@ -4,14 +4,14 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans flex items-center justify-center relative p-6">
       {/* Background */}
-      <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-[#ff3c00]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-[#0ea5e9]/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="text-center max-w-md space-y-6">
         <p className="text-[120px] sm:text-[160px] font-extrabold text-white/[0.03] leading-none select-none">
           404
         </p>
         <div className="-mt-20 relative space-y-4">
-          <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block uppercase">
+          <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block uppercase">
             Page Not Found
           </span>
           <h1 className="text-2xl font-bold text-white">
@@ -23,7 +23,7 @@ export default function NotFound() {
           <div className="flex gap-3 justify-center pt-4">
             <Link
               href="/"
-              className="px-6 py-3 rounded-xl bg-[#ff3c00] text-white text-sm font-bold hover:brightness-110 transition-all"
+              className="px-6 py-3 rounded-xl bg-[#0ea5e9] text-white text-sm font-bold hover:brightness-110 transition-all"
             >
               홈으로 이동
             </Link>

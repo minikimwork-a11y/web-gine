@@ -118,7 +118,7 @@ export default function AdminPage() {
   const handleInsertLink = () => {
     const url = prompt("연결할 링크 URL 주소를 입력하세요:", "https://");
     if (url) {
-      insertTag(`<a href="${url}" target="_blank" className="text-[#ff3c00] hover:underline font-semibold">`, "</a>");
+      insertTag(`<a href="${url}" target="_blank" className="text-[#0ea5e9] hover:underline font-semibold">`, "</a>");
     }
   };
 
@@ -464,16 +464,16 @@ export default function AdminPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] flex flex-col md:flex-row relative font-sans selection:bg-[#ff3c00] selection:text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] flex flex-col md:flex-row relative font-sans selection:bg-[#0ea5e9] selection:text-white">
       {/* Decorative backgrounds */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ff3c00]/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0ea5e9]/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Navigation Sidebar */}
       <aside className="w-full md:w-64 bg-black/60 border-b md:border-b-0 md:border-r border-white/10 backdrop-blur-xl flex flex-col justify-between z-10">
         <div>
           <div className="p-6 border-b border-white/10 flex items-center gap-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ff3c00] animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0ea5e9] animate-pulse" />
             <h1 className="text-lg font-bold tracking-tight text-white uppercase font-mono">
               1004_CONSOLE
             </h1>
@@ -489,7 +489,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab("dashboard")}
               className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 font-mono text-sm flex items-center gap-3 ${
                 activeTab === "dashboard"
-                  ? "bg-[#ff3c00]/10 text-[#ff3c00] font-semibold border-l-2 border-[#ff3c00]"
+                  ? "bg-[#0ea5e9]/10 text-[#0ea5e9] font-semibold border-l-2 border-[#0ea5e9]"
                   : "text-white/60 hover:text-white hover:bg-white/5"
               }`}
             >
@@ -499,7 +499,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab("posts")}
               className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 font-mono text-sm flex items-center gap-3 ${
                 activeTab === "posts" || activeTab === "editor"
-                  ? "bg-[#ff3c00]/10 text-[#ff3c00] font-semibold border-l-2 border-[#ff3c00]"
+                  ? "bg-[#0ea5e9]/10 text-[#0ea5e9] font-semibold border-l-2 border-[#0ea5e9]"
                   : "text-white/60 hover:text-white hover:bg-white/5"
               }`}
             >
@@ -509,7 +509,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab("sponsorships")}
               className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 font-mono text-sm flex items-center gap-3 ${
                 activeTab === "sponsorships"
-                  ? "bg-[#ff3c00]/10 text-[#ff3c00] font-semibold border-l-2 border-[#ff3c00]"
+                  ? "bg-[#0ea5e9]/10 text-[#0ea5e9] font-semibold border-l-2 border-[#0ea5e9]"
                   : "text-white/60 hover:text-white hover:bg-white/5"
               }`}
             >
@@ -525,7 +525,7 @@ export default function AdminPage() {
           </div>
           <button
             onClick={handleSignOut}
-            className="w-full bg-white/5 hover:bg-[#ff3c00]/20 hover:text-[#ff3c00] border border-white/10 hover:border-[#ff3c00]/30 transition-all duration-300 font-mono text-xs py-2.5 rounded-lg cursor-pointer text-center block"
+            className="w-full bg-white/5 hover:bg-[#0ea5e9]/20 hover:text-[#0ea5e9] border border-white/10 hover:border-[#0ea5e9]/30 transition-all duration-300 font-mono text-xs py-2.5 rounded-lg cursor-pointer text-center block"
           >
             SIGN OUT
           </button>
@@ -538,7 +538,7 @@ export default function AdminPage() {
         {activeTab === "dashboard" && (
           <div className="space-y-8 animate-fadeIn">
             <div>
-              <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block mb-1">
+              <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block mb-1">
                 SYSTEM SUMMARY
               </span>
               <h2 className="text-3xl font-extrabold tracking-tight text-white uppercase">
@@ -548,7 +548,7 @@ export default function AdminPage() {
 
             {/* Welcome Dashboard Box */}
             <div className="bg-black/40 border border-white/10 backdrop-blur-xl p-8 rounded-2xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#ff3c00] to-transparent" />
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0ea5e9] to-transparent" />
               <h3 className="text-xl font-bold text-white mb-4">1004 보금자리 웹진 관리 시스템</h3>
               <p className="text-white/60 text-sm leading-relaxed mb-6">
                 보금자리 웹진의 게시글 작성, 수정, 삭제 및 이미지 업로드를 관리하는 대시보드입니다. 모든 데이터는 Supabase 데이터베이스와 안전하게 연동되어 있습니다.
@@ -578,7 +578,7 @@ export default function AdminPage() {
               </div>
               <div className="bg-black/40 border border-white/10 p-6 rounded-2xl flex flex-col justify-between">
                 <span className="text-xs font-mono text-white/40 uppercase">Published Posts</span>
-                <span className="text-4xl font-extrabold text-[#ff3c00] mt-4">{stats.publishedPosts}</span>
+                <span className="text-4xl font-extrabold text-[#0ea5e9] mt-4">{stats.publishedPosts}</span>
                 <span className="text-xs text-white/30 mt-2">현재 공개 송출 중인 웹진</span>
               </div>
               <div className="bg-black/40 border border-white/10 p-6 rounded-2xl flex flex-col justify-between">
@@ -600,7 +600,7 @@ export default function AdminPage() {
                     <div className="font-bold text-white mb-1">새 웹진 포스트 작성</div>
                     <div className="text-xs text-white/40">커버 이미지 업로드 및 에디터 열기</div>
                   </div>
-                  <span className="font-mono text-lg text-[#ff3c00] group-hover:translate-x-1 transition-transform">&rarr;</span>
+                  <span className="font-mono text-lg text-[#0ea5e9] group-hover:translate-x-1 transition-transform">&rarr;</span>
                 </button>
               </div>
             </div>
@@ -612,7 +612,7 @@ export default function AdminPage() {
           <div className="space-y-8 animate-fadeIn">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block mb-1">
+                <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block mb-1">
                   POSTS LIST
                 </span>
                 <h2 className="text-3xl font-extrabold tracking-tight text-white uppercase">
@@ -621,7 +621,7 @@ export default function AdminPage() {
               </div>
               <button
                 onClick={startCreateMode}
-                className="bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-5 py-3 rounded-lg text-sm transition-all duration-300 shadow-lg cursor-pointer font-mono"
+                className="bg-[#0ea5e9] hover:bg-[#38bdf8] text-white font-bold px-5 py-3 rounded-lg text-sm transition-all duration-300 shadow-lg cursor-pointer font-mono"
                 style={{
                   clipPath: "polygon(0 0, 100% 0, 100% 75%, 93% 100%, 0 100%)",
                 }}
@@ -641,7 +641,7 @@ export default function AdminPage() {
                 {posts.map((post) => (
                   <div
                     key={post.id}
-                    className="bg-black/30 border border-white/10 rounded-2xl overflow-hidden hover:border-[#ff3c00]/40 transition-all duration-300 flex flex-col justify-between"
+                    className="bg-black/30 border border-white/10 rounded-2xl overflow-hidden hover:border-[#0ea5e9]/40 transition-all duration-300 flex flex-col justify-between"
                   >
                     <div>
                       {post.cover_image ? (
@@ -672,7 +672,7 @@ export default function AdminPage() {
                             {new Date(post.created_at).toLocaleDateString()}
                           </span>
                         </div>
-                        <h3 className="text-lg font-bold text-white hover:text-[#ff3c00] transition-colors line-clamp-1">
+                        <h3 className="text-lg font-bold text-white hover:text-[#0ea5e9] transition-colors line-clamp-1">
                           {post.title}
                         </h3>
                         <p className="text-white/60 text-xs line-clamp-2 leading-relaxed">
@@ -706,7 +706,7 @@ export default function AdminPage() {
         {activeTab === "editor" && (
           <div className="space-y-8 animate-fadeIn">
             <div>
-              <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block mb-1">
+              <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block mb-1">
                 {editingPost ? "EDIT POST CONTENT" : "WRITE NEW CONTENT"}
               </span>
               <h2 className="text-3xl font-extrabold tracking-tight text-white uppercase">
@@ -718,7 +718,7 @@ export default function AdminPage() {
               {/* Title */}
               <div className="space-y-2">
                 <label className="text-xs font-mono uppercase tracking-wider text-white/60 block">
-                  Title (제목) <span className="text-[#ff3c00]">*</span>
+                  Title (제목) <span className="text-[#0ea5e9]">*</span>
                 </label>
                 <input
                   type="text"
@@ -726,7 +726,7 @@ export default function AdminPage() {
                   onChange={(e) => setEditorTitle(e.target.value)}
                   required
                   placeholder="웹진 제목을 입력하세요."
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#ff3c00]/60 focus:bg-white/[0.08]"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#0ea5e9]/60 focus:bg-white/[0.08]"
                 />
               </div>
 
@@ -740,7 +740,7 @@ export default function AdminPage() {
                   onChange={(e) => setEditorExcerpt(e.target.value)}
                   placeholder="리스트 피드에 표시될 짧은 설명글을 입력하세요."
                   rows={2}
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#ff3c00]/60 focus:bg-white/[0.08]"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#0ea5e9]/60 focus:bg-white/[0.08]"
                 />
               </div>
 
@@ -761,7 +761,7 @@ export default function AdminPage() {
                               <button
                                 type="button"
                                 onClick={() => handleMoveImage(index, "left")}
-                                className="bg-black/80 hover:bg-[#ff3c00] text-white p-1 rounded transition-colors text-[10px] w-5 h-5 flex items-center justify-center cursor-pointer font-bold"
+                                className="bg-black/80 hover:bg-[#0ea5e9] text-white p-1 rounded transition-colors text-[10px] w-5 h-5 flex items-center justify-center cursor-pointer font-bold"
                                 title="왼쪽으로 이동"
                               >
                                 &larr;
@@ -771,7 +771,7 @@ export default function AdminPage() {
                               <button
                                 type="button"
                                 onClick={() => handleMoveImage(index, "right")}
-                                className="bg-black/80 hover:bg-[#ff3c00] text-white p-1 rounded transition-colors text-[10px] w-5 h-5 flex items-center justify-center cursor-pointer font-bold"
+                                className="bg-black/80 hover:bg-[#0ea5e9] text-white p-1 rounded transition-colors text-[10px] w-5 h-5 flex items-center justify-center cursor-pointer font-bold"
                                 title="오른쪽으로 이동"
                               >
                                 &rarr;
@@ -787,7 +787,7 @@ export default function AdminPage() {
                             </button>
                           </div>
                           {index === 0 && (
-                            <span className="absolute bottom-1 left-1 bg-[#ff3c00] text-white font-bold text-[8px] px-1 py-0.5 rounded uppercase tracking-wider z-20 shadow-md">
+                            <span className="absolute bottom-1 left-1 bg-[#0ea5e9] text-white font-bold text-[8px] px-1 py-0.5 rounded uppercase tracking-wider z-20 shadow-md">
                               COVER
                             </span>
                           )}
@@ -812,7 +812,7 @@ export default function AdminPage() {
                     />
                     <label
                       htmlFor="cover-upload"
-                      className={`inline-block px-4 py-2.5 rounded-lg border border-white/10 hover:border-[#ff3c00]/30 hover:bg-white/5 text-xs font-mono cursor-pointer transition-all ${
+                      className={`inline-block px-4 py-2.5 rounded-lg border border-white/10 hover:border-[#0ea5e9]/30 hover:bg-white/5 text-xs font-mono cursor-pointer transition-all ${
                         uploadingImage ? "opacity-50 pointer-events-none" : ""
                       }`}
                     >
@@ -831,7 +831,7 @@ export default function AdminPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <label className="text-xs font-mono uppercase tracking-wider text-white/60 block">
-                    Content (본문) <span className="text-[#ff3c00]">*</span>
+                    Content (본문) <span className="text-[#0ea5e9]">*</span>
                   </label>
                   
                   {/* Tab switches */}
@@ -841,7 +841,7 @@ export default function AdminPage() {
                       onClick={() => setEditorTab("write")}
                       className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
                         editorTab === "write"
-                          ? "bg-[#ff3c00] text-white font-bold"
+                          ? "bg-[#0ea5e9] text-white font-bold"
                           : "text-white/55 hover:text-white"
                       }`}
                     >
@@ -852,7 +852,7 @@ export default function AdminPage() {
                       onClick={() => setEditorTab("preview")}
                       className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
                         editorTab === "preview"
-                          ? "bg-[#ff3c00] text-white font-bold"
+                          ? "bg-[#0ea5e9] text-white font-bold"
                           : "text-white/55 hover:text-white"
                       }`}
                     >
@@ -942,11 +942,11 @@ export default function AdminPage() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => insertTag('<span className="text-[#ff3c00] font-bold">', "</span>")}
-                        className="p-1 px-2 rounded bg-[#ff3c00]/10 hover:bg-[#ff3c00]/25 text-[#ff3c00] border border-[#ff3c00]/20 text-[10px] font-mono cursor-pointer transition-all font-bold"
-                        title="주황색으로 글자 강조"
+                        onClick={() => insertTag('<span className="text-[#0ea5e9] font-bold">', "</span>")}
+                        className="p-1 px-2 rounded bg-[#0ea5e9]/10 hover:bg-[#0ea5e9]/25 text-[#0ea5e9] border border-[#0ea5e9]/20 text-[10px] font-mono cursor-pointer transition-all font-bold"
+                        title="하늘색으로 글자 강조"
                       >
-                        주황강조
+                        하늘강조
                       </button>
                       <span className="w-[1px] h-4 bg-white/10 mx-1" />
                       <button
@@ -974,7 +974,7 @@ export default function AdminPage() {
                       required
                       placeholder="웹진 내용을 입력하세요. 상단의 서식 도구를 이용하거나 직접 HTML 태그를 입력할 수 있습니다."
                       rows={12}
-                      className="w-full bg-white/5 border border-white/10 rounded-b-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#ff3c00]/60 focus:bg-white/[0.08] font-mono leading-relaxed"
+                      className="w-full bg-white/5 border border-white/10 rounded-b-lg px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-[#0ea5e9]/60 focus:bg-white/[0.08] font-mono leading-relaxed"
                     />
 
                     {/* Image Embed Helper section */}
@@ -988,7 +988,7 @@ export default function AdminPage() {
                             <div
                               key={index}
                               onClick={() => handleInsertImage(imgUrl)}
-                              className="w-14 h-10 rounded border border-white/10 overflow-hidden cursor-pointer hover:border-[#ff3c00] active:scale-95 transition-all relative group"
+                              className="w-14 h-10 rounded border border-white/10 overflow-hidden cursor-pointer hover:border-[#0ea5e9] active:scale-95 transition-all relative group"
                               title="본문에 삽입하려면 클릭"
                             >
                               <img src={imgUrl} alt={`Thumbnail ${index}`} className="object-cover w-full h-full" />
@@ -1003,13 +1003,13 @@ export default function AdminPage() {
                   </div>
                 ) : (
                   /* Preview Mode */
-                  <div className="bg-[#0a0a0a] border border-white/10 text-[#e0e0e0] rounded-lg p-6 sm:p-8 min-h-[300px] max-h-[500px] overflow-y-auto font-sans selection:bg-[#ff3c00] selection:text-white relative">
+                  <div className="bg-[#0a0a0a] border border-white/10 text-[#e0e0e0] rounded-lg p-6 sm:p-8 min-h-[300px] max-h-[500px] overflow-y-auto font-sans selection:bg-[#0ea5e9] selection:text-white relative">
                     <span className="absolute top-2 right-2 text-[9px] font-mono text-white/40 bg-white/5 border border-white/10 px-2 py-0.5 rounded pointer-events-none uppercase">
                       HTML Live Preview
                     </span>
                     {editorContent.trim() ? (
                       <div
-                        className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-4 [&_h3]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline"
+                        className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-4 [&_h3]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-white/60 [&_a]:text-[#0ea5e9] [&_a]:underline"
                         style={{ wordBreak: "break-word" }}
                         dangerouslySetInnerHTML={{ __html: formatHtmlContent(editorContent) }}
                       />
@@ -1031,7 +1031,7 @@ export default function AdminPage() {
                     id="publish-toggle"
                     checked={editorIsPublished}
                     onChange={(e) => setEditorIsPublished(e.target.checked)}
-                    className="w-4 h-4 bg-white/5 border border-white/10 rounded accent-[#ff3c00] cursor-pointer"
+                    className="w-4 h-4 bg-white/5 border border-white/10 rounded accent-[#0ea5e9] cursor-pointer"
                   />
                   <label htmlFor="publish-toggle" className="text-xs font-mono text-white/80 cursor-pointer uppercase select-none">
                     공개 발행 상태로 설정 (Publish)
@@ -1048,7 +1048,7 @@ export default function AdminPage() {
                     value={editorPublishedAt}
                     onChange={(e) => setEditorPublishedAt(e.target.value)}
                     required
-                    className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white outline-none transition-all duration-300 focus:border-[#ff3c00]/60 focus:bg-white/[0.08]"
+                    className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white outline-none transition-all duration-300 focus:border-[#0ea5e9]/60 focus:bg-white/[0.08]"
                   />
                 </div>
               </div>
@@ -1068,7 +1068,7 @@ export default function AdminPage() {
                 <button
                   type="submit"
                   disabled={submittingPost || uploadingImage}
-                  className="bg-[#ff3c00] hover:bg-[#ff5522] disabled:bg-white/10 disabled:text-white/20 font-bold px-6 py-3 rounded-lg text-xs tracking-wider transition-all shadow-lg cursor-pointer"
+                  className="bg-[#0ea5e9] hover:bg-[#38bdf8] disabled:bg-white/10 disabled:text-white/20 font-bold px-6 py-3 rounded-lg text-xs tracking-wider transition-all shadow-lg cursor-pointer"
                   style={{
                     clipPath: "polygon(0 0, 100% 0, 100% 75%, 93% 100%, 0 100%)",
                   }}
@@ -1084,7 +1084,7 @@ export default function AdminPage() {
         {activeTab === "sponsorships" && (
           <div className="space-y-8 animate-fadeIn">
             <div>
-              <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block mb-1">
+              <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block mb-1">
                 APPLICATIONS
               </span>
               <h2 className="text-3xl font-extrabold tracking-tight text-white uppercase">
@@ -1109,7 +1109,7 @@ export default function AdminPage() {
                       onClick={() => setSelectedSpons(spons)}
                       className={`p-5 rounded-2xl border text-left cursor-pointer transition-all duration-300 ${
                         selectedSpons?.id === spons.id
-                          ? "bg-[#ff3c00]/10 border-[#ff3c00] text-white"
+                          ? "bg-[#0ea5e9]/10 border-[#0ea5e9] text-white"
                           : "bg-black/30 border-white/10 text-white/60 hover:border-white/20"
                       }`}
                     >
@@ -1118,7 +1118,7 @@ export default function AdminPage() {
                         <span
                           className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full uppercase border ${
                             spons.type === "regular"
-                              ? "bg-[#ff3c00]/10 text-[#ff3c00] border-[#ff3c00]/20"
+                              ? "bg-[#0ea5e9]/10 text-[#0ea5e9] border-[#0ea5e9]/20"
                               : spons.type === "temporary"
                               ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                               : spons.type === "goods"
@@ -1138,7 +1138,7 @@ export default function AdminPage() {
                       <div className="space-y-1 font-mono text-[10px] text-white/40">
                         <div>연락처: <span className="text-white/70 font-sans">{spons.phone}</span></div>
                         {spons.amount && (
-                          <div>금액: <span className="text-[#ff3c00] font-sans font-bold">{spons.amount.toLocaleString()} 원</span></div>
+                          <div>금액: <span className="text-[#0ea5e9] font-sans font-bold">{spons.amount.toLocaleString()} 원</span></div>
                         )}
                         {spons.goods_desc && (
                           <div className="truncate">물품: <span className="text-white/70 font-sans">{spons.goods_desc}</span></div>
@@ -1155,7 +1155,7 @@ export default function AdminPage() {
                 <div className="w-full lg:w-7/12">
                   {selectedSpons ? (
                     <div className="bg-black/40 border border-white/10 backdrop-blur-xl rounded-2xl p-6 relative overflow-hidden space-y-6 animate-fadeIn">
-                      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#ff3c00] to-transparent" />
+                      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#0ea5e9] to-transparent" />
                       
                       <div className="flex justify-between items-center border-b border-white/5 pb-4">
                         <div>
@@ -1188,7 +1188,7 @@ export default function AdminPage() {
                         {selectedSpons.amount && (
                           <div className="grid grid-cols-3 border-b border-white/5 pb-2">
                             <span className="text-white/40 font-mono">후원 금액</span>
-                            <span className="col-span-2 text-[#ff3c00] font-bold font-mono">
+                            <span className="col-span-2 text-[#0ea5e9] font-bold font-mono">
                               {selectedSpons.amount.toLocaleString()} 원
                             </span>
                           </div>
@@ -1224,7 +1224,7 @@ export default function AdminPage() {
                         {selectedSpons.goods_valuation && (
                           <div className="grid grid-cols-3 border-b border-white/5 pb-2">
                             <span className="text-white/40 font-mono">물품 감정액</span>
-                            <span className="col-span-2 text-[#ff3c00] font-mono font-bold">{selectedSpons.goods_valuation.toLocaleString()} 원</span>
+                            <span className="col-span-2 text-[#0ea5e9] font-mono font-bold">{selectedSpons.goods_valuation.toLocaleString()} 원</span>
                           </div>
                         )}
 
@@ -1269,7 +1269,7 @@ export default function AdminPage() {
                                 <button
                                   type="button"
                                   onClick={() => setRevealAccount(!revealAccount)}
-                                  className="px-2 py-0.5 rounded bg-white/10 hover:bg-[#ff3c00] hover:text-white text-white/70 transition-all text-[9px] cursor-pointer font-mono font-bold"
+                                  className="px-2 py-0.5 rounded bg-white/10 hover:bg-[#0ea5e9] hover:text-white text-white/70 transition-all text-[9px] cursor-pointer font-mono font-bold"
                                 >
                                   {revealAccount ? "HIDE (숨기기)" : "SHOW (보기)"}
                                 </button>
@@ -1279,7 +1279,7 @@ export default function AdminPage() {
                               <div>예금주 생일:</div>
                               <div className="col-span-2 text-white font-bold">{selectedSpons.bank_birth}</div>
                               <div>자동 이체일:</div>
-                              <div className="col-span-2 text-[#ff3c00] font-bold">{selectedSpons.pay_date}</div>
+                              <div className="col-span-2 text-[#0ea5e9] font-bold">{selectedSpons.pay_date}</div>
                             </div>
                           </div>
                         )}
@@ -1295,7 +1295,7 @@ export default function AdminPage() {
                                       <button
                                         type="button"
                                         onClick={() => setRevealJumin(!revealJumin)}
-                                        className="px-2 py-0.5 rounded bg-white/10 hover:bg-[#ff3c00] hover:text-white text-white/70 transition-all text-[9px] cursor-pointer font-mono font-bold"
+                                        className="px-2 py-0.5 rounded bg-white/10 hover:bg-[#0ea5e9] hover:text-white text-white/70 transition-all text-[9px] cursor-pointer font-mono font-bold"
                                       >
                                         {revealJumin ? "HIDE (숨기기)" : "SHOW (보기)"}
                                       </button>

@@ -86,9 +86,9 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative pb-24 overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#0ea5e9] selection:text-white relative pb-24 overflow-x-hidden">
       {/* Background decorations */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#ff3c00]/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#0ea5e9]/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Shared Navbar */}
@@ -125,7 +125,7 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
           <article className="space-y-8 animate-fadeIn">
             {/* Meta */}
             <div className="space-y-4">
-              <span className="text-xs font-mono text-[#ff3c00] tracking-widest font-bold block uppercase">
+              <span className="text-xs font-mono text-[#0ea5e9] tracking-widest font-bold block uppercase">
                 {new Date(post.published_at).toLocaleDateString("ko-KR", {
                   year: "numeric",
                   month: "long",
@@ -136,7 +136,7 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                 {decodeHtml(post.title)}
               </h1>
               {post.excerpt && (
-                <p className="text-sm sm:text-base text-white/50 border-l-2 border-[#ff3c00] pl-4 leading-relaxed">
+                <p className="text-sm sm:text-base text-white/50 border-l-2 border-[#0ea5e9] pl-4 leading-relaxed">
                   {decodeHtml(post.excerpt)}
                 </p>
               )}
@@ -182,14 +182,14 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                   <>
                     <button
                       onClick={handlePrev}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ff3c00] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#0ea5e9] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
                       aria-label="이전 사진"
                     >
                       &larr;
                     </button>
                     <button
                       onClick={handleNext}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ff3c00] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#0ea5e9] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
                       aria-label="다음 사진"
                     >
                       &rarr;
@@ -201,7 +201,7 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
                         <button
                           key={idx}
                           onClick={() => setCurrentSlide(idx)}
-                          className={`w-2 h-2 rounded-full transition-all cursor-pointer ${currentSlide === idx ? "bg-[#ff3c00] w-4" : "bg-white/40 hover:bg-white/80"
+                          className={`w-2 h-2 rounded-full transition-all cursor-pointer ${currentSlide === idx ? "bg-[#0ea5e9] w-4" : "bg-white/40 hover:bg-white/80"
                             }`}
                           aria-label={`${idx + 1}번째 슬라이드로 이동`}
                         />
@@ -217,7 +217,7 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
 
             {/* Body Content */}
             <div
-              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline [&_img]:pointer-events-none [&_img]:select-none"
+              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#0ea5e9] [&_a]:underline [&_img]:pointer-events-none [&_img]:select-none"
               style={{ wordBreak: "break-word" }}
               onContextMenu={(e) => e.preventDefault()}
               onDragStart={(e) => e.preventDefault()}

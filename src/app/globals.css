@@ -93,9 +93,9 @@ body {
   background: conic-gradient(
     from 0deg,
     transparent 65%,
-    rgba(255, 60, 0, 0.5) 88%,
-    rgba(255, 85, 34, 0.7) 95%,
-    rgba(255, 60, 0, 0.5) 100%
+    rgba(14, 165, 233, 0.5) 88%,
+    rgba(56, 189, 248, 0.7) 95%,
+    rgba(14, 165, 233, 0.5) 100%
   );
   animation: border-beam-spin 4s linear infinite; /* Slower spin for premium elegance */
 }
@@ -188,7 +188,7 @@ body {
   left: 10%;
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, rgba(255, 60, 0, 0.55) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.55) 0%, transparent 80%);
   animation: float-orb-1 25s ease-in-out infinite alternate;
 }
 
@@ -206,7 +206,7 @@ body {
   right: 25%;
   width: 380px;
   height: 380px;
-  background: radial-gradient(circle, rgba(255, 179, 138, 0.35) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(125, 211, 252, 0.35) 0%, transparent 80%);
   animation: float-orb-3 20s ease-in-out infinite alternate;
 }
 
@@ -215,7 +215,7 @@ body {
   left: 5%;
   width: 420px;
   height: 420px;
-  background: radial-gradient(circle, rgba(255, 107, 53, 0.35) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, transparent 80%);
   animation: float-orb-4 28s ease-in-out infinite alternate;
 }
 

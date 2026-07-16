@@ -137,9 +137,9 @@ function PostsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative flex flex-col overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#0ea5e9] selection:text-white relative flex flex-col overflow-x-hidden">
       {/* Visual highlights */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#ff3c00]/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#0ea5e9]/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-20 left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Shared Navbar */}
@@ -189,7 +189,7 @@ function PostsContent() {
                 <button
                   key={post.id}
                   onClick={() => openPostDetail(post.id)}
-                  className="group bg-black/30 border border-white/10 hover:border-[#ff3c00]/30 hover:bg-black/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col h-full shadow-lg relative border-beam-card text-left cursor-pointer"
+                  className="group bg-black/30 border border-white/10 hover:border-[#0ea5e9]/30 hover:bg-black/50 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col h-full shadow-lg relative border-beam-card text-left cursor-pointer"
                 >
                   <div className="border-beam-container" />
                   {/* Image container */}
@@ -214,14 +214,14 @@ function PostsContent() {
                   {/* Content */}
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div className="space-y-3">
-                      <span className="text-[10px] font-mono text-[#ff3c00] tracking-wider font-bold">
+                      <span className="text-[10px] font-mono text-[#0ea5e9] tracking-wider font-bold">
                         {new Date(post.published_at || post.created_at).toLocaleDateString("ko-KR", {
                           year: "numeric",
                           month: "long",
                           day: "numeric",
                         })}
                       </span>
-                      <h3 className="text-lg font-bold text-white group-hover:text-[#ff3c00] transition-colors leading-snug line-clamp-2 font-sans">
+                      <h3 className="text-lg font-bold text-white group-hover:text-[#0ea5e9] transition-colors leading-snug line-clamp-2 font-sans">
                         {decodeHtml(post.title)}
                       </h3>
                       <p className="text-white/60 text-xs line-clamp-3 leading-relaxed">
@@ -245,7 +245,7 @@ function PostsContent() {
             <button
               onClick={loadMorePosts}
               disabled={loadingMore}
-              className="px-8 py-3.5 rounded-xl border border-white/10 hover:border-[#ff3c00]/40 bg-zinc-900/60 hover:bg-zinc-800 text-sm font-bold text-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl cursor-pointer disabled:opacity-50 disabled:pointer-events-none backdrop-blur-md"
+              className="px-8 py-3.5 rounded-xl border border-white/10 hover:border-[#0ea5e9]/40 bg-zinc-900/60 hover:bg-zinc-800 text-sm font-bold text-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl cursor-pointer disabled:opacity-50 disabled:pointer-events-none backdrop-blur-md"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%)",
               }}
@@ -279,7 +279,7 @@ function PostsContent() {
           <article className="space-y-6 animate-fadeIn">
             {/* Meta */}
             <div className="space-y-3">
-              <span className="text-xs font-mono text-[#ff3c00] tracking-widest font-bold block uppercase">
+              <span className="text-xs font-mono text-[#0ea5e9] tracking-widest font-bold block uppercase">
                 {new Date(selectedPost.published_at).toLocaleDateString("ko-KR", {
                   year: "numeric",
                   month: "long",
@@ -287,7 +287,7 @@ function PostsContent() {
                 })}
               </span>
               {selectedPost.excerpt && (
-                <p className="text-sm text-white/50 border-l-2 border-[#ff3c00] pl-4 leading-relaxed">
+                <p className="text-sm text-white/50 border-l-2 border-[#0ea5e9] pl-4 leading-relaxed">
                   {decodeHtml(selectedPost.excerpt)}
                 </p>
               )}
@@ -331,14 +331,14 @@ function PostsContent() {
                   <>
                     <button
                       onClick={handlePrevSlide}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ff3c00] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#0ea5e9] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
                       aria-label="이전 사진"
                     >
                       &larr;
                     </button>
                     <button
                       onClick={handleNextSlide}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#ff3c00] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#0ea5e9] text-white p-3 rounded-full z-20 transition-all opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100 cursor-pointer shadow-lg"
                       aria-label="다음 사진"
                     >
                       &rarr;
@@ -351,7 +351,7 @@ function PostsContent() {
                           key={idx}
                           onClick={() => setCurrentSlide(idx)}
                           className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                            currentSlide === idx ? "bg-[#ff3c00] w-4" : "bg-white/40 hover:bg-white/80"
+                            currentSlide === idx ? "bg-[#0ea5e9] w-4" : "bg-white/40 hover:bg-white/80"
                           }`}
                           aria-label={`${idx + 1}번째 슬라이드로 이동`}
                         />
@@ -367,7 +367,7 @@ function PostsContent() {
 
             {/* Body Content */}
             <div
-              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#ff3c00] [&_a]:underline [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full [&_img]:pointer-events-none [&_img]:select-none"
+              className="leading-relaxed text-white/85 text-sm sm:text-base space-y-6 [&_p]:mb-4 [&_p]:leading-relaxed [&_strong]:font-bold [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-1 [&_br]:mb-2 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-2 [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-4 [&_h4]:mb-1 [&_blockquote]:border-l-4 [&_blockquote]:border-white/20 [&_blockquote]:pl-4 [&_blockquote]:text-white/60 [&_a]:text-[#0ea5e9] [&_a]:underline [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full [&_img]:pointer-events-none [&_img]:select-none"
               style={{ wordBreak: "break-word" }}
               onContextMenu={(e) => e.preventDefault()}
               onDragStart={(e) => e.preventDefault()}
@@ -379,7 +379,7 @@ function PostsContent() {
               <div className="flex gap-3">
                 <button
                   onClick={handleShare}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-white/10 hover:border-[#ff3c00]/30 bg-white/[0.03] hover:bg-white/[0.06] text-white/70 hover:text-white transition-all duration-300 cursor-pointer text-sm font-medium"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-white/10 hover:border-[#0ea5e9]/30 bg-white/[0.03] hover:bg-white/[0.06] text-white/70 hover:text-white transition-all duration-300 cursor-pointer text-sm font-medium"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />

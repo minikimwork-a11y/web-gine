@@ -312,9 +312,9 @@ export default function SponsorshipPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#ff3c00] selection:text-white relative pb-24 overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] font-sans selection:bg-[#0ea5e9] selection:text-white relative pb-24 overflow-x-hidden">
       {/* Background decorations */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#ff3c00]/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#0ea5e9]/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-20 left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Shared Navbar */}
@@ -323,7 +323,7 @@ export default function SponsorshipPage() {
       {/* Header Title */}
       <section className="max-w-4xl mx-auto px-6 pt-16 pb-8 text-center">
         <div className="max-w-3xl mx-auto space-y-4">
-          <span className="font-mono text-xs text-[#ff3c00] tracking-widest font-bold block uppercase">
+          <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block uppercase">
             Sponsorship Application
           </span>
           <h1 className="text-4xl sm:text-3xl font-extrabold text-white tracking-tight leading-none font-sans">
@@ -345,7 +345,7 @@ export default function SponsorshipPage() {
             <div className="flex justify-between items-center mb-10 max-w-md mx-auto relative select-none">
               <div className="absolute h-[2px] bg-white/10 left-4 right-4 top-1/2 -translate-y-1/2 z-0" />
               <div
-                className="absolute h-[2px] bg-[#ff3c00] left-4 top-1/2 -translate-y-1/2 z-0 transition-all duration-500"
+                className="absolute h-[2px] bg-[#0ea5e9] left-4 top-1/2 -translate-y-1/2 z-0 transition-all duration-500"
                 style={{ width: step === 1 ? "0%" : step === 2 ? "50%" : "100%" }}
               />
 
@@ -353,7 +353,7 @@ export default function SponsorshipPage() {
                 <div key={s} className="relative z-10 flex flex-col items-center gap-2">
                   <div
                     className={`w-9 h-9 rounded-full font-mono font-bold text-xs flex items-center justify-center transition-all duration-300 border-2 ${step >= s
-                      ? "bg-[#ff3c00] border-[#ff3c00] text-white shadow-lg"
+                      ? "bg-[#0ea5e9] border-[#0ea5e9] text-white shadow-lg"
                       : "bg-zinc-950 border-white/10 text-white/40"
                       }`}
                   >
@@ -378,7 +378,7 @@ export default function SponsorshipPage() {
               <div className="space-y-6 animate-fadeIn">
                 <div className="border-b border-white/10 pb-4">
                   <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <span className="w-1.5 h-6 bg-[#ff3c00] rounded-full inline-block" />
+                    <span className="w-1.5 h-6 bg-[#0ea5e9] rounded-full inline-block" />
                     후원 및 자원봉사 유형 선택
                   </h3>
                 </div>
@@ -395,12 +395,12 @@ export default function SponsorshipPage() {
                       key={opt.id}
                       onClick={() => setType(opt.id)}
                       className={`border p-5 rounded-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between h-32 select-none relative group ${type === opt.id
-                        ? "border-[#ff3c00] bg-[#ff3c00]/5 text-white"
+                        ? "border-[#0ea5e9] bg-[#0ea5e9]/5 text-white"
                         : "border-white/10 bg-white/[0.01] text-white/60 hover:border-white/20"
                         }`}
                     >
                       {type === opt.id && (
-                        <span className="absolute top-3 right-3 text-[#ff3c00] text-sm">✓</span>
+                        <span className="absolute top-3 right-3 text-[#0ea5e9] text-sm">✓</span>
                       )}
                       <span className="text-2xl">
                         {opt.id === "regular" ? "📅" : opt.id === "temporary" ? "💸" : opt.id === "goods" ? "📦" : "🤝"}
@@ -419,13 +419,13 @@ export default function SponsorshipPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label htmlFor="reg-amount" className="text-xs font-mono text-white/50 block">
-                          정기 후원 금액 <span className="text-[#ff3c00]">*</span>
+                          정기 후원 금액 <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <select
                           id="reg-amount"
                           value={amount}
                           onChange={(e) => setAmount(e.target.value)}
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         >
                           <option value="10000">매월 10,000 원</option>
                           <option value="20000">매월 20,000 원</option>
@@ -438,13 +438,13 @@ export default function SponsorshipPage() {
 
                       <div className="space-y-2">
                         <label htmlFor="reg-pay-method" className="text-xs font-mono text-white/50 block">
-                          입금 방법 <span className="text-[#ff3c00]">*</span>
+                          입금 방법 <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <select
                           id="reg-pay-method"
                           value={payMethod}
                           onChange={(e) => setPayMethod(e.target.value as PayMethod)}
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         >
                           <option value="CMS">CMS 자동이체 (자동인출)</option>
                           <option value="direct">직접 송금 (직접 통장입금)</option>
@@ -455,7 +455,7 @@ export default function SponsorshipPage() {
                     {amount === "custom" && (
                       <div className="space-y-2 animate-fadeIn">
                         <label htmlFor="reg-amount-custom" className="text-xs font-mono text-white/50 block">
-                          정기 금액 직접 입력 (원) <span className="text-[#ff3c00]">*</span>
+                          정기 금액 직접 입력 (원) <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <input
                           type="number"
@@ -463,7 +463,7 @@ export default function SponsorshipPage() {
                           value={customAmount}
                           onChange={(e) => setCustomAmount(e.target.value)}
                           placeholder="예: 15000"
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         />
                       </div>
                     )}
@@ -474,7 +474,7 @@ export default function SponsorshipPage() {
                   <div className="bg-white/[0.02] border border-white/5 p-6 rounded-2xl space-y-4">
                     <div className="space-y-2">
                       <label htmlFor="temp-amount" className="text-xs font-mono text-white/50 block">
-                        일시 후원 금액 (원) <span className="text-[#ff3c00]">*</span>
+                        일시 후원 금액 (원) <span className="text-[#0ea5e9]">*</span>
                       </label>
                       <input
                         type="number"
@@ -482,7 +482,7 @@ export default function SponsorshipPage() {
                         value={customAmount}
                         onChange={(e) => setCustomAmount(e.target.value)}
                         placeholder="예: 50000"
-                        className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                        className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                       />
                     </div>
                     <div className="p-4 bg-zinc-950/70 border border-white/5 rounded-xl text-left space-y-1">
@@ -497,7 +497,7 @@ export default function SponsorshipPage() {
                   <div className="bg-white/[0.02] border border-white/5 p-6 rounded-2xl space-y-4">
                     <div className="space-y-2">
                       <label htmlFor="goods-desc" className="text-xs font-mono text-white/50 block">
-                        후원하실 물품 정보 (품목 및 수량) <span className="text-[#ff3c00]">*</span>
+                        후원하실 물품 정보 (품목 및 수량) <span className="text-[#0ea5e9]">*</span>
                       </label>
                       <textarea
                         id="goods-desc"
@@ -505,7 +505,7 @@ export default function SponsorshipPage() {
                         onChange={(e) => setGoodsDesc(e.target.value)}
                         rows={3}
                         placeholder="예: 남성용 겨울 내의 10세트 / 보금자리 거주인용 동화책 20권"
-                        className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60 leading-relaxed"
+                        className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60 leading-relaxed"
                       />
                     </div>
 
@@ -529,7 +529,7 @@ export default function SponsorshipPage() {
                             {goodsPhoto ? "사진 변경" : "사진 선택"}
                           </label>
                           {goodsPhoto && (
-                            <span className="text-[10px] text-[#ff3c00] truncate max-w-[120px]">
+                            <span className="text-[10px] text-[#0ea5e9] truncate max-w-[120px]">
                               {goodsPhoto.name}
                             </span>
                           )}
@@ -546,7 +546,7 @@ export default function SponsorshipPage() {
                           value={goodsValuation}
                           onChange={(e) => setGoodsValuation(e.target.value)}
                           placeholder="예: 50000"
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         />
                       </div>
                     </div>
@@ -576,7 +576,7 @@ export default function SponsorshipPage() {
                     onChange={(e) => setAmountDesc(e.target.value)}
                     rows={3}
                     placeholder="시설 이용자분들을 위한 따뜻한 격려나 요청사항을 적어주세요."
-                    className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60 leading-relaxed"
+                    className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60 leading-relaxed"
                   />
                 </div>
 
@@ -585,7 +585,7 @@ export default function SponsorshipPage() {
                   <button
                     type="button"
                     onClick={nextStep}
-                    className="bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-6 py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
+                    className="bg-[#0ea5e9] hover:bg-[#38bdf8] text-white font-bold px-6 py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
                   >
                     다음 단계 &rarr;
                   </button>
@@ -598,7 +598,7 @@ export default function SponsorshipPage() {
               <div className="space-y-6 animate-fadeIn">
                 <div className="border-b border-white/10 pb-4">
                   <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <span className="w-1.5 h-6 bg-[#ff3c00] rounded-full inline-block" />
+                    <span className="w-1.5 h-6 bg-[#0ea5e9] rounded-full inline-block" />
                     신청인(기부자) 정보 입력
                   </h3>
                 </div>
@@ -606,7 +606,7 @@ export default function SponsorshipPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="spons-name" className="text-xs font-mono text-white/50 block">
-                      기부자명 / 단체명 <span className="text-[#ff3c00]">*</span>
+                      기부자명 / 단체명 <span className="text-[#0ea5e9]">*</span>
                     </label>
                     <input
                       type="text"
@@ -615,13 +615,13 @@ export default function SponsorshipPage() {
                       onChange={(e) => setName(e.target.value)}
                       required
                       placeholder="성함 혹은 단체명을 입력해 주세요."
-                      className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                      className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <label htmlFor="spons-phone" className="text-xs font-mono text-white/50 block">
-                      연락처 <span className="text-[#ff3c00]">*</span>
+                      연락처 <span className="text-[#0ea5e9]">*</span>
                     </label>
                     <input
                       type="text"
@@ -630,7 +630,7 @@ export default function SponsorshipPage() {
                       onChange={(e) => setPhone(e.target.value)}
                       required
                       placeholder="예: 010-1234-5678"
-                      className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                      className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                     />
                   </div>
 
@@ -644,7 +644,7 @@ export default function SponsorshipPage() {
                       value={fax}
                       onChange={(e) => setFax(e.target.value)}
                       placeholder="예: 061-275-0767"
-                      className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                      className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                     />
                   </div>
 
@@ -658,7 +658,7 @@ export default function SponsorshipPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="예: email@example.com"
-                      className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                      className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                     />
                   </div>
                 </div>
@@ -675,7 +675,7 @@ export default function SponsorshipPage() {
                         value="home"
                         checked={addressType === "home"}
                         onChange={() => setAddressType("home")}
-                        className="accent-[#ff3c00]"
+                        className="accent-[#0ea5e9]"
                       />
                       자택 주소
                     </label>
@@ -686,7 +686,7 @@ export default function SponsorshipPage() {
                         value="office"
                         checked={addressType === "office"}
                         onChange={() => setAddressType("office")}
-                        className="accent-[#ff3c00]"
+                        className="accent-[#0ea5e9]"
                       />
                       직장 주소
                     </label>
@@ -725,7 +725,7 @@ export default function SponsorshipPage() {
                     placeholder="나머지 상세 주소를 입력하세요."
                     value={addressDetail}
                     onChange={(e) => setAddressDetail(e.target.value)}
-                    className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                    className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                   />
                 </div>
 
@@ -741,7 +741,7 @@ export default function SponsorshipPage() {
                   <button
                     type="button"
                     onClick={nextStep}
-                    className="bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
+                    className="bg-[#0ea5e9] hover:bg-[#38bdf8] text-white font-bold px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
                   >
                     다음 단계 &rarr;
                   </button>
@@ -754,7 +754,7 @@ export default function SponsorshipPage() {
               <div className="space-y-6 animate-fadeIn">
                 <div className="border-b border-white/10 pb-4">
                   <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <span className="w-1.5 h-6 bg-[#ff3c00] rounded-full inline-block" />
+                    <span className="w-1.5 h-6 bg-[#0ea5e9] rounded-full inline-block" />
                     납부 방법 및 동의·온라인 서명
                   </h3>
                 </div>
@@ -769,7 +769,7 @@ export default function SponsorshipPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label htmlFor="cms-bank" className="text-xs font-mono text-white/50 block">
-                          금융기관명 (은행명) <span className="text-[#ff3c00]">*</span>
+                          금융기관명 (은행명) <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <input
                           type="text"
@@ -778,13 +778,13 @@ export default function SponsorshipPage() {
                           onChange={(e) => setBankName(e.target.value)}
                           required
                           placeholder="예: 농협, 신한은행"
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <label htmlFor="cms-account" className="text-xs font-mono text-white/50 block">
-                          계좌번호 <span className="text-[#ff3c00]">*</span>
+                          계좌번호 <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <input
                           type="text"
@@ -793,13 +793,13 @@ export default function SponsorshipPage() {
                           onChange={(e) => setBankAccount(e.target.value)}
                           required
                           placeholder="'-' 제외하고 숫자만 입력"
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <label htmlFor="cms-holder" className="text-xs font-mono text-white/50 block">
-                          예금주 성함 <span className="text-[#ff3c00]">*</span>
+                          예금주 성함 <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <input
                           type="text"
@@ -808,13 +808,13 @@ export default function SponsorshipPage() {
                           onChange={(e) => setBankHolder(e.target.value)}
                           required
                           placeholder="계좌의 예금주명 입력"
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <label htmlFor="cms-birth" className="text-xs font-mono text-white/50 block">
-                          예금주 생년월일 / 사업자번호 <span className="text-[#ff3c00]">*</span>
+                          예금주 생년월일 / 사업자번호 <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <input
                           type="text"
@@ -823,19 +823,19 @@ export default function SponsorshipPage() {
                           onChange={(e) => setBankBirth(e.target.value)}
                           required
                           placeholder="주민번호 앞 6자리 또는 사업자등록번호"
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <label htmlFor="cms-date" className="text-xs font-mono text-white/50 block">
-                          정기 자동 이체일 <span className="text-[#ff3c00]">*</span>
+                          정기 자동 이체일 <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <select
                           id="cms-date"
                           value={payDate}
                           onChange={(e) => setPayDate(e.target.value)}
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         >
                           <option value="5일">매월 5일</option>
                           <option value="10일">매월 10일</option>
@@ -862,7 +862,7 @@ export default function SponsorshipPage() {
                           value="personal"
                           checked={receiptOpt === "personal"}
                           onChange={() => setReceiptOpt("personal")}
-                          className="accent-[#ff3c00]"
+                          className="accent-[#0ea5e9]"
                         />
                         개인용 발행 (주민등록번호 기재)
                       </label>
@@ -873,7 +873,7 @@ export default function SponsorshipPage() {
                           value="business"
                           checked={receiptOpt === "business"}
                           onChange={() => setReceiptOpt("business")}
-                          className="accent-[#ff3c00]"
+                          className="accent-[#0ea5e9]"
                         />
                         사업자/단체용 발행 (사업자번호 기재)
                       </label>
@@ -884,7 +884,7 @@ export default function SponsorshipPage() {
                           value="none"
                           checked={receiptOpt === "none"}
                           onChange={() => setReceiptOpt("none")}
-                          className="accent-[#ff3c00]"
+                          className="accent-[#0ea5e9]"
                         />
                         발행하지 않음
                       </label>
@@ -893,7 +893,7 @@ export default function SponsorshipPage() {
                     {receiptOpt !== "none" && (
                       <div className="space-y-2 animate-fadeIn">
                         <label htmlFor="spons-jumin" className="text-xs font-mono text-white/50 block">
-                          주민등록번호 / 사업자등록번호 <span className="text-[#ff3c00]">*</span>
+                          주민등록번호 / 사업자등록번호 <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <input
                           type="text"
@@ -902,7 +902,7 @@ export default function SponsorshipPage() {
                           onChange={(e) => setJuminNo(e.target.value)}
                           required
                           placeholder="소득공제 전송에 필요한 정확한 고유 식별 번호를 적어주세요."
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#ff3c00]/60"
+                          className="w-full bg-zinc-950 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white outline-none focus:border-[#0ea5e9]/60"
                         />
                       </div>
                     )}
@@ -919,7 +919,7 @@ export default function SponsorshipPage() {
                       - 보존기간: 관련 세법에 의거 기부 영수증 발급일로부터 5년
                     </div>
                     <div className="flex items-center gap-2 pt-1">
-                      <input type="checkbox" id="agree-privacy" required className="accent-[#ff3c00]" />
+                      <input type="checkbox" id="agree-privacy" required className="accent-[#0ea5e9]" />
                       <label htmlFor="agree-privacy" className="text-xs text-white/80 cursor-pointer select-none">
                         상기 수집 조항 및 제3자 제공 처리에 전적으로 동의합니다.
                       </label>
@@ -933,7 +933,7 @@ export default function SponsorshipPage() {
                   <div className="space-y-2 min-w-0">
                     <div className="flex justify-between items-center">
                       <label className="text-xs font-mono text-white/80 font-bold block">
-                        신청인(기부자) 서명 <span className="text-[#ff3c00]">*</span>
+                        신청인(기부자) 서명 <span className="text-[#0ea5e9]">*</span>
                       </label>
                       <button
                         type="button"
@@ -972,13 +972,13 @@ export default function SponsorshipPage() {
                     <div className="space-y-2 min-w-0 animate-fadeIn">
                       <div className="flex justify-between items-center">
                         <label className="text-xs font-mono text-white/80 font-bold block">
-                          예금주 서명 <span className="text-[#ff3c00]">*</span>
+                          예금주 서명 <span className="text-[#0ea5e9]">*</span>
                         </label>
                         <div className="flex gap-3">
                           <button
                             type="button"
                             onClick={copyDonorSignature}
-                            className="text-[10px] font-mono text-[#ff3c00] hover:brightness-110 transition-all cursor-pointer font-semibold"
+                            className="text-[10px] font-mono text-[#0ea5e9] hover:brightness-110 transition-all cursor-pointer font-semibold"
                           >
                             기부자 서명 복사
                           </button>
@@ -1026,7 +1026,7 @@ export default function SponsorshipPage() {
                 <div className="bg-white/[0.02] border border-white/5 p-4 rounded-xl flex flex-col sm:flex-row items-center gap-4 justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-mono text-white/60">🤖 스팸방지 퀴즈:</span>
-                    <span className="text-sm font-bold text-[#ff3c00] font-mono">{captchaNum1} + {captchaNum2} = </span>
+                    <span className="text-sm font-bold text-[#0ea5e9] font-mono">{captchaNum1} + {captchaNum2} = </span>
                   </div>
                   <div className="flex gap-2">
                     <input
@@ -1035,7 +1035,7 @@ export default function SponsorshipPage() {
                       onChange={(e) => setCaptchaInput(e.target.value)}
                       placeholder="정답 입력"
                       required
-                      className="w-24 bg-zinc-950 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-center text-white outline-none focus:border-[#ff3c00]/60 font-mono"
+                      className="w-24 bg-zinc-950 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-center text-white outline-none focus:border-[#0ea5e9]/60 font-mono"
                     />
                     <button
                       type="button"
@@ -1061,7 +1061,7 @@ export default function SponsorshipPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full sm:w-auto bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-4 py-2 sm:px-8 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer shadow-lg disabled:opacity-40 text-center"
+                    className="w-full sm:w-auto bg-[#0ea5e9] hover:bg-[#38bdf8] text-white font-bold px-4 py-2 sm:px-8 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer shadow-lg disabled:opacity-40 text-center"
                   >
                     {submitting ? "접수 진행 중..." : "따뜻한 후원 신청 완료하기"}
                   </button>
@@ -1091,7 +1091,7 @@ export default function SponsorshipPage() {
                     {type === "regular" && (
                       <>
                         <div>정기 금액:</div>
-                        <div className="col-span-2 text-[#ff3c00] font-bold">
+                        <div className="col-span-2 text-[#0ea5e9] font-bold">
                           {amount === "custom" ? parseFloat(customAmount).toLocaleString() : parseFloat(amount).toLocaleString()} 원
                         </div>
                         <div>납부 방식:</div>
@@ -1102,7 +1102,7 @@ export default function SponsorshipPage() {
                     {type === "temporary" && (
                       <>
                         <div>일시 금액:</div>
-                        <div className="col-span-2 text-[#ff3c00] font-bold">{parseFloat(customAmount).toLocaleString()} 원</div>
+                        <div className="col-span-2 text-[#0ea5e9] font-bold">{parseFloat(customAmount).toLocaleString()} 원</div>
                         <div>납부 방식:</div>
                         <div className="col-span-2 text-white">직접 계좌이체송금</div>
                       </>
@@ -1154,7 +1154,7 @@ export default function SponsorshipPage() {
                   </button>
                   <a
                     href="/posts"
-                    className="bg-[#ff3c00] hover:bg-[#ff5522] text-white font-bold px-8 py-2.5 rounded-lg text-xs font-mono transition-all cursor-pointer shadow-lg block text-center"
+                    className="bg-[#0ea5e9] hover:bg-[#38bdf8] text-white font-bold px-8 py-2.5 rounded-lg text-xs font-mono transition-all cursor-pointer shadow-lg block text-center"
                   >
                     웹진으로 돌아가기
                   </a>
