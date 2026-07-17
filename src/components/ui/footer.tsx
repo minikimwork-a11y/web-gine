@@ -9,7 +9,7 @@ export function Footer() {
           {/* Branding */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <img src="/logo.png" alt="1004 보금자리 로고" className="h-7 object-contain filter brightness-125 drop-shadow-[0_0_1px_rgba(255,255,255,0.4)]" />
+              <img src="/logo.png" alt="1004 보금자리 로고" className="h-7 object-contain" />
               <span className="font-bold text-white text-sm">1004 보금자리</span>
             </div>
             <p className="text-xs text-white/40 leading-relaxed">

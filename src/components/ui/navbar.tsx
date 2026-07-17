@@ -63,7 +63,7 @@ function NavbarContent() {
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo / Branding */}
         <a href="http://1004house.co.kr" className="flex items-center gap-3 group" onClick={closeMobile}>
-          <img src="/logo.png" alt="1004 보금자리 로고" className="h-9 object-contain filter brightness-125 drop-shadow-[0_0_1px_rgba(255,255,255,0.5)] transition-transform group-hover:scale-105" />
+          <img src="/logo.png" alt="1004 보금자리 로고" className="h-9 object-contain transition-transform group-hover:scale-105" />
           <span className="font-sans font-bold text-base tracking-wide text-white group-hover:text-[#0ea5e9] transition-colors hidden sm:inline-block">
             보금자리 웹진
           </span>
