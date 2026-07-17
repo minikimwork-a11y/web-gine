@@ -7,6 +7,10 @@ export interface Post {
   is_published: boolean;
   published_at: string;
   created_at: string;
+  likes_heart: number;
+  likes_cheer: number;
+  likes_best: number;
+  likes_thanks: number;
 }
 
 export interface PostSummary {
@@ -16,6 +20,10 @@ export interface PostSummary {
   cover_image: string | null;
   published_at: string;
   created_at: string;
+  likes_heart: number;
+  likes_cheer: number;
+  likes_best: number;
+  likes_thanks: number;
 }
 
 export interface PostNavItem {

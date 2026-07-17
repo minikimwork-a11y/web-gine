@@ -21,6 +21,79 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
   // Carousel State
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Likes state for non-member users
+  const [userReactions, setUserReactions] = useState<Record<string, string[]>>({});
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("webzine_reactions");
+      if (saved) {
+        try {
+          setUserReactions(JSON.parse(saved));
+        } catch (e) {
+          console.error("Error parsing user reactions", e);
+        }
+      }
+    }
+  }, []);
+
+  const toggleReaction = async (reactionType: "heart" | "cheer" | "best" | "thanks") => {
+    if (!post) return;
+    const postId = post.id;
+    const postReactions = userReactions[postId] || [];
+    const hasReacted = postReactions.includes(reactionType);
+
+    const updatedReactionsForPost = hasReacted
+      ? postReactions.filter((type) => type !== reactionType)
+      : [...postReactions, reactionType];
+
+    const updatedReactions = {
+      ...userReactions,
+      [postId]: updatedReactionsForPost,
+    };
+
+    setUserReactions(updatedReactions);
+    localStorage.setItem("webzine_reactions", JSON.stringify(updatedReactions));
+
+    const dbColumn = `likes_${reactionType}` as const;
+
+    // Update state locally (optimistic update)
+    setPost((prev) => {
+      if (!prev) return null;
+      const currentCount = (prev as any)[dbColumn] || 0;
+      return {
+        ...prev,
+        [dbColumn]: hasReacted ? Math.max(0, currentCount - 1) : currentCount + 1,
+      };
+    });
+
+    try {
+      if (hasReacted) {
+        await supabase.rpc("decrement_reaction", { post_id: postId, reaction_type: reactionType });
+      } else {
+        await supabase.rpc("increment_reaction", { post_id: postId, reaction_type: reactionType });
+      }
+    } catch (err) {
+      console.error(`Error calling ${reactionType} reaction RPC:`, err);
+    }
+  };
+
+  const handleShare = async () => {
+    if (!post) return;
+    const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: decodeHtml(post.title),
+          url: shareUrl,
+        });
+      } catch { /* user cancelled */ }
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      alert("링크가 복사되었습니다!");
+    }
+  };
+
   useEffect(() => {
     // Reset state when navigating between posts
     setLoading(true);
@@ -223,6 +296,53 @@ export default function PostDetailPage({ params }: { params: Promise<{ id: strin
               onDragStart={(e) => e.preventDefault()}
               dangerouslySetInnerHTML={{ __html: formatHtmlContent(post.content) }}
             />
+
+            {/* Action Buttons */}
+            <div className="pt-6 border-t border-white/10 space-y-4 max-w-xl mx-auto">
+              <div className="grid grid-cols-4 gap-2 sm:gap-3">
+                {[
+                  { type: "heart", emoji: "❤️", count: post.likes_heart || 0, color: "text-rose-400 border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20" },
+                  { type: "cheer", emoji: "👏", count: post.likes_cheer || 0, color: "text-amber-400 border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20" },
+                  { type: "best", emoji: "👍", count: post.likes_best || 0, color: "text-sky-400 border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20" },
+                  { type: "thanks", emoji: "☕", count: post.likes_thanks || 0, color: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20" }
+                ].map((reaction) => {
+                  const isActive = (userReactions[post.id] || []).includes(reaction.type);
+                  return (
+                    <button
+                      key={reaction.type}
+                      onClick={() => toggleReaction(reaction.type as any)}
+                      className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border transition-all duration-300 cursor-pointer text-xs font-semibold ${
+                        isActive
+                          ? reaction.color
+                          : "border-white/10 bg-white/[0.02] hover:bg-white/[0.06] text-white/60 hover:text-white hover:border-[#0ea5e9]/20"
+                      }`}
+                    >
+                      <span className={`text-lg transition-transform duration-300 ${isActive ? "scale-125 rotate-12" : "group-hover:scale-110"}`}>
+                        {reaction.emoji}
+                      </span>
+                      <span className="font-mono text-[13px] sm:text-sm font-bold">
+                        {reaction.count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Utility Button */}
+              <div className="flex justify-center">
+                <button
+                  onClick={handleShare}
+                  className="w-full sm:w-1/2 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-white/10 hover:border-[#0ea5e9]/30 bg-white/[0.03] hover:bg-white/[0.06] text-white/70 hover:text-white transition-all duration-300 cursor-pointer text-sm font-medium"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                    <polyline points="16 6 12 2 8 6" />
+                    <line x1="12" x2="12" y1="2" y2="15" />
+                  </svg>
+                  공유하기
+                </button>
+              </div>
+            </div>
 
             {/* Footer Navigation */}
             <div className="pt-12 border-t border-white/10 space-y-6">
