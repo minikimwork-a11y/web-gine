@@ -101,6 +101,9 @@ export default function SponsorshipPage() {
   };
 
   const startDrawing = (e: any, canvasRef: React.RefObject<HTMLCanvasElement | null>, setPlaceholder: (show: boolean) => void) => {
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -118,6 +121,9 @@ export default function SponsorshipPage() {
   };
 
   const draw = (e: any, canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
+    if (e.cancelable) {
+      e.preventDefault();
+    }
     if (!isDrawing.current) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -957,7 +963,7 @@ export default function SponsorshipPage() {
                         onTouchStart={(e) => startDrawing(e, donorCanvasRef, setShowDonorPlaceholder)}
                         onTouchMove={(e) => draw(e, donorCanvasRef)}
                         onTouchEnd={stopDrawing}
-                        className="absolute inset-0 w-full h-full z-10"
+                        className="absolute inset-0 w-full h-full z-10 touch-none"
                       />
                       {showDonorPlaceholder && (
                         <div className="absolute inset-0 flex items-center justify-center text-[10px] text-white/20 select-none z-0 pointer-events-none">
@@ -1005,7 +1011,7 @@ export default function SponsorshipPage() {
                           onTouchStart={(e) => startDrawing(e, holderCanvasRef, setShowHolderPlaceholder)}
                           onTouchMove={(e) => draw(e, holderCanvasRef)}
                           onTouchEnd={stopDrawing}
-                          className="absolute inset-0 w-full h-full z-10"
+                          className="absolute inset-0 w-full h-full z-10 touch-none"
                         />
                         {showHolderPlaceholder && (
                           <div className="absolute inset-0 flex items-center justify-center text-[10px] text-white/20 select-none z-0 pointer-events-none">
