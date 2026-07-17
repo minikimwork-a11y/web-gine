@@ -294,7 +294,7 @@ function PostsContent() {
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-[#0ea5e9] tracking-wider font-bold">
+                        <span className="text-[11px] font-mono text-[#0ea5e9] tracking-wider font-bold">
                           {new Date(post.published_at || post.created_at).toLocaleDateString("ko-KR", {
                             year: "numeric",
                             month: "long",
