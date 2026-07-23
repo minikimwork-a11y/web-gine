@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { supabase } from "@/lib/supabase";
 
@@ -9,7 +10,9 @@ type PayMethod = "CMS" | "direct";
 type AddressType = "home" | "office";
 type ReceiptOpt = "personal" | "business" | "none";
 
-export default function SponsorshipPage() {
+function SponsorshipForm() {
+  const searchParams = useSearchParams();
+
   // Navigation / Wizard state
   const [step, setStep] = useState<"intro" | 1 | 2 | 3 | "success">("intro");
   const [submitting, setSubmitting] = useState(false);
@@ -22,6 +25,22 @@ export default function SponsorshipPage() {
 
   // Form states - Step 1
   const [type, setType] = useState<SponsType>("regular");
+
+  useEffect(() => {
+    if (searchParams) {
+      const typeParam = searchParams.get("type") || searchParams.get("tab");
+      if (
+        typeParam === "regular" ||
+        typeParam === "temporary" ||
+        typeParam === "goods" ||
+        typeParam === "volunteer"
+      ) {
+        setType(typeParam);
+        setStep(1);
+      }
+    }
+  }, [searchParams]);
+
   const [amount, setAmount] = useState<string>("30000"); // options: 10000, 20000, 30000, 50000, 100000, custom
   const [customAmount, setCustomAmount] = useState<string>("");
   const [payMethod, setPayMethod] = useState<PayMethod>("CMS");
@@ -1255,5 +1274,17 @@ export default function SponsorshipPage() {
       </>
       )}
     </div>
+  );
+}
+
+export default function SponsorshipPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0a0a0a] text-[#e0e0e0] flex items-center justify-center font-mono text-xs">
+        로딩 중...
+      </div>
+    }>
+      <SponsorshipForm />
+    </Suspense>
   );
 }
