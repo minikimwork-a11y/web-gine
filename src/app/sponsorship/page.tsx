@@ -11,8 +11,14 @@ type ReceiptOpt = "personal" | "business" | "none";
 
 export default function SponsorshipPage() {
   // Navigation / Wizard state
-  const [step, setStep] = useState<1 | 2 | 3 | "success">(1);
+  const [step, setStep] = useState<"intro" | 1 | 2 | 3 | "success">("intro");
   const [submitting, setSubmitting] = useState(false);
+
+  const getStepNumber = (s: typeof step): number => {
+    if (s === "intro") return 0;
+    if (s === "success") return 4;
+    return s;
+  };
 
   // Form states - Step 1
   const [type, setType] = useState<SponsType>("regular");
@@ -197,6 +203,7 @@ export default function SponsorshipPage() {
   const prevStep = () => {
     if (step === 2) setStep(1);
     else if (step === 3) setStep(2);
+    else if (step === 1) setStep("intro");
   };
 
   // Submission handler
@@ -326,58 +333,125 @@ export default function SponsorshipPage() {
       {/* Shared Navbar */}
       <Navbar />
 
-      {/* Header Title */}
-      <section className="max-w-4xl mx-auto px-6 pt-16 pb-8 text-center">
-        <div className="max-w-3xl mx-auto space-y-4">
-          <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block uppercase">
-            Sponsorship Application
-          </span>
-          <h1 className="text-4xl sm:text-3xl font-extrabold text-white tracking-tight leading-none font-sans">
-            따뜻한 나눔 신청
-          </h1>
-          <p className="text-white/60 text-xs sm:text-sm leading-relaxed pt-2">
-            여러분의 소중한 후원과 봉사는 발달장애인들의 독립적인 생활과 건강한 지역사회 참여를 돕는 밑거름이 됩니다. <br />
-          </p>
-        </div>
-      </section>
+      {step === "intro" ? (
+        <section className="relative w-full min-h-[calc(100vh-64px)] flex flex-col justify-between items-center text-center px-6 py-20 overflow-hidden">
+          {/* Hero Background Image with Overlay */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="/hands_heart_donation.png" 
+              alt="Donation Background" 
+              className="w-full h-full object-cover scale-105 animate-subtle-zoom"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-[#0a0a0a]" />
+          </div>
 
-      {/* Wizard Form container */}
-      <main className="max-w-3xl mx-auto px-6 py-6 relative z-10">
-        <div className="bg-black/40 border border-white/10 backdrop-blur-md rounded-3xl p-5 sm:p-8 shadow-2xl relative border-beam-active overflow-hidden">
-          <div className="border-beam-container" />
+          {/* Spacer */}
+          <div className="h-10" />
 
-          {/* Steps Progress Indicator */}
-          {step !== "success" && (
-            <div className="flex justify-between items-center mb-10 max-w-md mx-auto relative select-none">
-              <div className="absolute h-[2px] bg-white/10 left-4 right-4 top-1/2 -translate-y-1/2 z-0" />
-              <div
-                className="absolute h-[2px] bg-[#0ea5e9] left-4 top-1/2 -translate-y-1/2 z-0 transition-all duration-500"
-                style={{ width: step === 1 ? "0%" : step === 2 ? "50%" : "100%" }}
-              />
+          {/* Core Content */}
+          <div className="relative z-10 max-w-5xl mx-auto w-full flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16 my-auto animate-fadeIn text-left px-4">
+            {/* Left Column: Slogan & Button */}
+            <div className="flex-1 space-y-6 text-center md:text-left">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight md:leading-[1.15]">
+                따뜻한 후원이 있는 <br />
+                <span className="text-[#0ea5e9] font-light">1004 보금자리</span>
+              </h1>
+              
+              <div className="w-16 h-[2px] bg-white/40 mx-auto md:mx-0 my-4" />
+              
+              <p className="text-white/85 text-sm sm:text-base md:text-lg font-light leading-relaxed max-w-xl">
+                여러분의 소중한 후원과 봉사는 발달장애인들의 독립적인 생활과 <br className="hidden sm:inline" />
+                건강한 지역사회 참여를 돕는 밑거름이 됩니다.
+              </p>
 
-              {[1, 2, 3].map((s) => (
-                <div key={s} className="relative z-10 flex flex-col items-center gap-2">
-                  <div
-                    className={`w-9 h-9 rounded-full font-mono font-bold text-xs flex items-center justify-center transition-all duration-300 border-2 ${step >= s
-                      ? "bg-[#0ea5e9] border-[#0ea5e9] text-white shadow-lg"
-                      : "bg-zinc-950 border-white/10 text-white/40"
-                      }`}
-                  >
-                    {s}
-                  </div>
-                  <span
-                    className={`text-[10px] font-bold ${step >= s ? "text-white" : "text-white/30"
-                      }`}
-                  >
-                    {s === 1 ? "유형 선택" : s === 2 ? "인적 사항" : "동의서명"}
-                  </span>
-                </div>
-              ))}
+              <div className="pt-4 flex justify-center md:justify-start">
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="relative overflow-hidden border-beam-card border-beam-active px-10 py-4 sm:px-12 sm:py-4.5 rounded-xl border border-white/20 bg-black/40 text-sm sm:text-base font-bold text-white hover:border-[#0ea5e9]/80 hover:bg-black/60 hover:scale-105 hover:shadow-[0_0_25px_rgba(14,165,233,0.35)] active:scale-95 transition-all duration-300 backdrop-blur-md cursor-pointer"
+                >
+                  <div className="border-beam-container" />
+                  후원신청 &rarr;
+                </button>
+              </div>
             </div>
-          )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Right Column: QR Code (Visible on Desktop only) */}
+            <div className="hidden md:flex flex-col items-center p-6 bg-black/40 border border-white/10 backdrop-blur-md rounded-2xl shadow-xl w-60 shrink-0 border-beam-card hover:border-[#0ea5e9]/40 transition-all duration-300">
+              <div className="w-40 h-40 bg-white p-3 rounded-xl shadow-inner relative overflow-hidden flex items-center justify-center">
+                <img 
+                  src="/sponsorship_qr.png" 
+                  alt="Sponsorship QR Code" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="mt-4 text-center space-y-1">
+                <strong className="text-xs text-white block font-bold">스마트폰으로 신청하기</strong>
+                <span className="text-[10px] text-white/50 block leading-normal">
+                  서명하기 편리한 모바일 화면으로 <br />
+                  바로 이동하여 신청할 수 있습니다.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Symmetrical Bottom Spacer */}
+          <div className="h-10" />
+        </section>
+      ) : (
+        <>
+          {/* Header Title */}
+          <section className="max-w-4xl mx-auto px-6 pt-16 pb-8 text-center animate-fadeIn">
+            <div className="max-w-3xl mx-auto space-y-4">
+              <span className="font-mono text-xs text-[#0ea5e9] tracking-widest font-bold block uppercase">
+                Sponsorship Application
+              </span>
+              <h1 className="text-4xl sm:text-3xl font-extrabold text-white tracking-tight leading-none font-sans">
+                따뜻한 후원 신청
+              </h1>
+              <p className="text-white/60 text-xs sm:text-sm leading-relaxed pt-2">
+                여러분의 소중한 후원과 봉사는 발달장애인들의 독립적인 생활과 건강한 지역사회 참여를 돕는 밑거름이 됩니다. <br />
+              </p>
+            </div>
+          </section>
+
+          {/* Wizard Form container */}
+          <main className="max-w-3xl mx-auto px-6 py-6 relative z-10">
+            <div className="bg-black/40 border border-white/10 backdrop-blur-md rounded-3xl p-5 sm:p-8 shadow-2xl relative border-beam-active overflow-hidden">
+              <div className="border-beam-container" />
+
+              {/* Steps Progress Indicator */}
+              {step !== "success" && (
+                <div className="flex justify-between items-center mb-10 max-w-md mx-auto relative select-none">
+                  <div className="absolute h-[2px] bg-white/10 left-4 right-4 top-1/2 -translate-y-1/2 z-0" />
+                  <div
+                    className="absolute h-[2px] bg-[#0ea5e9] left-4 top-1/2 -translate-y-1/2 z-0 transition-all duration-500"
+                    style={{ width: step === 1 ? "0%" : step === 2 ? "50%" : "100%" }}
+                  />
+
+                  {[1, 2, 3].map((s) => (
+                    <div key={s} className="relative z-10 flex flex-col items-center gap-2">
+                      <div
+                        className={`w-9 h-9 rounded-full font-mono font-bold text-xs flex items-center justify-center transition-all duration-300 border-2 ${getStepNumber(step) >= s
+                          ? "bg-[#0ea5e9] border-[#0ea5e9] text-white shadow-lg"
+                          : "bg-zinc-950 border-white/10 text-white/40"
+                          }`}
+                      >
+                        {s}
+                      </div>
+                      <span
+                        className={`text-[10px] font-bold ${getStepNumber(step) >= s ? "text-white" : "text-white/30"
+                          }`}
+                      >
+                        {s === 1 ? "유형 선택" : s === 2 ? "인적 사항" : "동의서명"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="space-y-6">
 
             {/* STEP 1: 유형 선택 */}
             {step === 1 && (
@@ -587,7 +661,14 @@ export default function SponsorshipPage() {
                 </div>
 
                 {/* Footer Buttons */}
-                <div className="flex justify-end pt-4 border-t border-white/10">
+                <div className="flex justify-between pt-4 border-t border-white/10">
+                  <button
+                    type="button"
+                    onClick={prevStep}
+                    className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-xs font-mono transition-colors cursor-pointer"
+                  >
+                    &larr; 이전 단계
+                  </button>
                   <button
                     type="button"
                     onClick={nextStep}
@@ -1171,6 +1252,8 @@ export default function SponsorshipPage() {
           </form>
         </div>
       </main>
+      </>
+      )}
     </div>
   );
 }

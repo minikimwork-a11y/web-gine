@@ -311,3 +311,17 @@ body {
   }
 }
 
+@keyframes subtle-zoom {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+.animate-subtle-zoom {
+  animation: subtle-zoom 25s ease-in-out infinite alternate;
+}
+
+
